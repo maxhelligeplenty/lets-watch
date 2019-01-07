@@ -1,0 +1,25 @@
+<div class="row container-fluid">
+    <div class="col-lg-8">
+        <youtube-player
+            [videoId]="videoId"
+            (ready)="savePlayer($event)"
+            (change)="onStateChange()">
+        </youtube-player>
+    </div>
+    <div class="col-lg-4">
+        <div>
+            <input type="text"
+                   [(ngModel)]="newVideoUrl">
+            <button (click)="sendMessage()">Add to Playlist</button>
+        </div>
+        <div *ngFor="let message of messages">
+            {{message.content}}
+        </div>
+        <div>
+            PLAYLIST
+        </div>
+    </div>
+    <div class="col-lg-12">
+        HISTORY
+    </div>
+</div>
