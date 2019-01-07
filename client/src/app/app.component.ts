@@ -134,11 +134,6 @@ export class AppComponent implements OnInit
         });
     }
 
-    private requestCurrentPlayer()
-    {
-
-    }
-
     private syncVideoTime(currentTime):void
     {
         //only sync if time is not synced yet
