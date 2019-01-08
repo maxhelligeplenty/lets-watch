@@ -4,10 +4,12 @@ import {
 } from '@angular/core';
 import { SyncVideoInterface } from './interface/sync-video.interface';
 import { isNullOrUndefined } from 'util';
-import { SocketService } from './service/socket.service';
 import { Event } from './interface/event.interface';
 import { Message } from './interface/message.interface';
 import { VideoInfoInterface } from './interface/video-info.interface';
+import * as socketIo from 'socket.io-client';
+
+const SERVER_URL = 'http://localhost:8080';
 
 @Component({
     selector:    'app-root',
@@ -18,27 +20,29 @@ export class AppComponent implements OnInit
 {
     public newVideoUrl:string;
     public syncData:SyncVideoInterface;
-
     public videoHistoryList:string[] = [];
     public messages:Message[] = [];
 
     protected videoId:string = 'WEkSYw3o5is';
 
     private isReady:boolean = false;
+    private socket;
 
-    constructor(private socketService:SocketService)
+    constructor()
     {
 
     }
 
     public ngOnInit():void
     {
-        this.initIoConnection();
     }
 
-    public addNewVideoUrl(newUrl:string):void
+    public addNewVideoUrl(url:string):void
     {
-        this.socketService.newVideo(this.getVideoId(newUrl));
+        if(!isNullOrUndefined(url))
+        {
+            this.syncData.socket.emit(Event.NEW_VIDEO, url);
+        }
     }
 
     private getVideoId(url):string
@@ -52,19 +56,13 @@ export class AppComponent implements OnInit
         }
     }
 
-    public sendMessage():void
-    {
-        this.socketService.send({
-            content: this.newVideoUrl
-        });
-        this.newVideoUrl = null;
-    }
-
     protected savePlayer(player:YT.Player):void
     {
+        this.initIoConnection();
         this.syncData = {
             videoId: this.videoId,
-            player:  player
+            player:  player,
+            socket:  this.socket
         };
         this.syncData.player.loadVideoById(this.videoId);
         this.isReady = true;
@@ -72,87 +70,90 @@ export class AppComponent implements OnInit
 
     protected onStateChange():void
     {
-        this.socketService.state(this.syncData.player.getPlayerState());
+        switch(this.syncData.player.getPlayerState())
+        {
+            case -1:
+                this.syncData.socket.emit(Event.PLAY);
+                break;
+            case 0:
+                break;
+            case 1:
+                this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                this.syncData.socket.emit(Event.PLAY);
+                break;
+            case 2:
+                this.syncData.socket.emit(Event.PAUSE);
+                break;
+            case 3:
+                this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                break;
+            case 5:
+                break;
+            default:
+                break;
+        }
     }
 
     private initIoConnection():void
     {
-        this.socketService.initSocket();
-        this.socketService.onEvent(Event.CONNECT).subscribe(() =>
+        this.socket = socketIo(SERVER_URL);
+
+        this.socket.on(Event.CONNECT, () =>
         {
-            this.socketService.askVideoInformation();
+            this.socket.emit(Event.ASK_VIDEO_INFORMATION);
         });
-        this.socketService.onEvent(Event.DISCONNECT).subscribe(() =>
+
+        this.socket.on(Event.DISCONNECT, () =>
         {
+            console.log('Cya');
         });
-        this.socketService.onAskVideoInfo().subscribe(() =>
+
+        this.socket.on(Event.PLAY, () =>
+        {
+            this.syncData.player.playVideo();
+        });
+
+        this.socket.on(Event.PAUSE, () =>
+        {
+            this.syncData.player.pauseVideo();
+        });
+
+        this.socket.on(Event.SYNC_TIME, (time:number) =>
+        {
+            this.syncVideoTime(time);
+        });
+
+        this.socket.on(Event.NEW_VIDEO, (url:string) =>
+        {
+            this.syncData.player.loadVideoById({
+                videoId: this.getVideoId(url)
+            });
+        });
+
+        this.socket.on(Event.ASK_VIDEO_INFORMATION, () =>
         {
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
             };
-            this.socketService.syncVideoInformation(videoInfo);
+            this.socket.emit(Event.SYNC_VIDEO_INFORMATION, videoInfo);
         });
-        this.socketService.onMessage().subscribe((message:Message) =>
-        {
-            this.messages.push(message);
-        });
-        this.socketService.onSyncTime().subscribe((time:number) =>
-        {
-            this.syncVideoTime(time);
-        });
-        this.socketService.onNewVideo().subscribe((id:string) =>
-        {
-            this.syncData.player.loadVideoById({
-                videoId: id
-            })
-        });
-        this.socketService.onSyncVideoInformation().subscribe((videoInfo:VideoInfoInterface) =>
+
+        this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
             this.syncData.player.loadVideoById({
                 videoId:      this.getVideoId(videoInfo.url),
                 startSeconds: videoInfo.time
-            })
-        });
-        this.socketService.onPlay().subscribe(() =>
-        {
-            this.syncData.player.playVideo();
-        });
-        this.socketService.onPause().subscribe(() =>
-        {
-            this.syncData.player.pauseVideo();
-        });
-        this.socketService.onState().subscribe((state:number) =>
-        {
-            if(!isNullOrUndefined(this.isReady))
-            {
-                switch(state)
-                {
-                    case -1:
-                        this.socketService.play();
-                        break;
-                    case 1:
-                        this.socketService.play();
-                        this.socketService.syncTime(this.syncData.player.getCurrentTime());
-                        console.log(this.syncData.player.getPlayerState());
-                        break;
-                    case 2:
-                        this.socketService.pause();
-                        console.log(this.syncData.player.getPlayerState());
-                        break;
-                    case 3:
-                        this.socketService.syncTime(this.syncData.player.getCurrentTime());
-                        console.log(this.syncData.player.getPlayerState());
-                    default:
-                        break;
-                }
-            }
+            });
         });
     }
 
-    private syncVideoTime(currentTime):void
+    private syncVideoTime(time:number):void
     {
-        this.syncData.player.seekTo(currentTime, false);
+        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
+        {
+            this.syncData.player.seekTo(time, false);
+        }
     }
 }
 

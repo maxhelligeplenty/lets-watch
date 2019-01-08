@@ -10,7 +10,7 @@
         <div>
             <input type="text"
                    [(ngModel)]="newVideoUrl">
-            <button (click)="sendMessage()">Add to Playlist</button>
+            <button (click)="addNewVideoUrl(newVideoUrl)">Add to Playlist</button>
         </div>
         <div *ngFor="let message of messages">
             {{message.content}}

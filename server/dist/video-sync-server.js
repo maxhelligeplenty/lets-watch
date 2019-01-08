@@ -42,10 +42,6 @@ var VideoSyncServer = /** @class */ (function () {
             socket.on(event_interface_1.Event.PAUSE, function () {
                 _this.io.emit(event_interface_1.Event.PAUSE);
             });
-            socket.on(event_interface_1.Event.STATE, function (s) {
-                console.log(s);
-                _this.io.emit(event_interface_1.Event.STATE, s);
-            });
             socket.on(event_interface_1.Event.SYNC_TIME, function (t) {
                 console.log(t);
                 _this.io.emit(event_interface_1.Event.SYNC_TIME, t);

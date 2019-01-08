@@ -71,11 +71,6 @@ export class VideoSyncServer
             {
                 this.io.emit(Event.PAUSE);
             });
-            socket.on(Event.STATE, (s:number) =>
-            {
-                console.log(s);
-                this.io.emit(Event.STATE, s);
-            });
             socket.on(Event.SYNC_TIME, (t:number) =>
             {
                 console.log(t);
