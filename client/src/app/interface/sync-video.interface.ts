@@ -3,6 +3,7 @@ import * as socketIo from 'socket.io-client';
 export interface SyncVideoInterface
 {
     videoId:string;
-    socket:socketIo
+    socket:socketIo;
     player:YT.Player;
+    room:string;
 }
