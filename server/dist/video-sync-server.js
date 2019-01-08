@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("http");
-var express = require("express");
 var socketIo = require("socket.io");
+var express = require("express");
+var action_interface_1 = require("./model/action.interface");
 var VideoSyncServer = /** @class */ (function () {
     function VideoSyncServer() {
         this.createApp();
@@ -28,30 +29,32 @@ var VideoSyncServer = /** @class */ (function () {
         this.server.listen(this.port, function () {
             console.log('Running server on port %s', _this.port);
         });
-        this.io.on('connect', function (socket) {
+        this.io.on(action_interface_1.Action.DISCONNECT, function (socket) {
             console.log('Connected client on port %s.', _this.port);
             socket.on('message', function (m) {
                 console.log('[server](message): %s', JSON.stringify(m));
                 _this.io.emit('message', m);
             });
-            socket.on('disconnect', function () {
+            socket.on(action_interface_1.Action.DISCONNECT, function () {
                 console.log('Client disconnected');
             });
-            socket.on('state', function (s) {
-                _this.io.emit('state', s);
+            socket.on(action_interface_1.Action.STATE, function (s) {
+                socket.broadcast.emit(action_interface_1.Action.STATE, s);
             });
-            socket.on('sync-time', function (t) {
-                console.log(t);
-                _this.io.emit('sync-time', t);
+            socket.on(action_interface_1.Action.SYNC_TIME, function (t) {
+                socket.broadcast.emit(action_interface_1.Action.SYNC_TIME, t);
             });
-            socket.on('new-video', function (id) {
-                _this.io.emit('new-video', id);
+            socket.on(action_interface_1.Action.NEW_VIDEO, function (id) {
+                _this.io.emit(action_interface_1.Action.NEW_VIDEO, id);
             });
-            socket.on('video-info', function () {
-                socket.broadcast.emit('video-info');
+            socket.on(action_interface_1.Action.ASK_VIDEO_INFORMATION, function () {
+                socket.broadcast.emit(action_interface_1.Action.ASK_VIDEO_INFORMATION);
             });
-            socket.on('sync-video-info', function (v) {
-                _this.io.emit('sync-video-info', v);
+            socket.on(action_interface_1.Action.ASK_TIME, function () {
+                socket.broadcast.emit(action_interface_1.Action.ASK_TIME);
+            });
+            socket.on(action_interface_1.Action.SYNC_VIDEO_INFORMATION, function (v) {
+                _this.io.emit(action_interface_1.Action.SYNC_VIDEO_INFORMATION, v);
             });
         });
     };

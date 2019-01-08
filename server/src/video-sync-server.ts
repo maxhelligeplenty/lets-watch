@@ -2,11 +2,11 @@ import {
     createServer,
     Server
 } from 'http';
-import * as express from 'express';
 import * as socketIo from 'socket.io';
 import { Socket } from 'socket.io';
-
 import { Message } from './model';
+import * as express from 'express';
+import { Action } from './model/action.interface';
 
 export class VideoSyncServer
 {
@@ -52,7 +52,7 @@ export class VideoSyncServer
             console.log('Running server on port %s', this.port);
         });
 
-        this.io.on('connect', (socket:Socket) =>
+        this.io.on(Action.DISCONNECT, (socket:Socket) =>
         {
             console.log('Connected client on port %s.', this.port);
             socket.on('message', (m:Message) =>
@@ -61,34 +61,39 @@ export class VideoSyncServer
                 this.io.emit('message', m);
             });
 
-            socket.on('disconnect', () =>
+            socket.on(Action.DISCONNECT, () =>
             {
                 console.log('Client disconnected');
             });
 
-            socket.on('state', (s:number) =>
+            socket.on(Action.STATE, (s:number) =>
             {
-                this.io.emit('state', s);
+                socket.broadcast.emit(Action.STATE, s);
             });
 
-            socket.on('sync-time', (t:number) =>
+            socket.on(Action.SYNC_TIME, (t:number) =>
             {
-                this.io.emit('sync-time', t);
+                socket.broadcast.emit(Action.SYNC_TIME, t);
             });
 
-            socket.on('new-video', (id:number) =>
+            socket.on(Action.NEW_VIDEO, (id:number) =>
             {
-                this.io.emit('new-video', id);
+                this.io.emit(Action.NEW_VIDEO, id);
             });
 
-            socket.on('video-info', () =>
+            socket.on(Action.ASK_VIDEO_INFORMATION, () =>
             {
-                socket.broadcast.emit('video-info');
+                socket.broadcast.emit(Action.ASK_VIDEO_INFORMATION);
             });
 
-            socket.on('sync-video-info', (v:any) =>
+            socket.on(Action.ASK_TIME, () =>
             {
-                this.io.emit('sync-video-info', v);
+                socket.broadcast.emit(Action.ASK_TIME);
+            });
+
+            socket.on(Action.SYNC_VIDEO_INFORMATION, (v:any) =>
+            {
+                this.io.emit(Action.SYNC_VIDEO_INFORMATION, v);
             });
         });
     }
