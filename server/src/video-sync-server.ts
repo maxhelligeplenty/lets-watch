@@ -87,7 +87,7 @@ export class VideoSyncServer
             });
             socket.on(Event.ASK_VIDEO_INFORMATION, () =>
             {
-                socket.to(room).broadcast.emit(Event.ASK_VIDEO_INFORMATION);
+                socket.to(room).emit(Event.ASK_VIDEO_INFORMATION);
             });
             socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface) =>
             {
