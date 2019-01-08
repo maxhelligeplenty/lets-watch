@@ -7,6 +7,7 @@ import { isNullOrUndefined } from 'util';
 import { SocketService } from './service/socket.service';
 import { Event } from './interface/event.interface';
 import { Message } from './interface/message.interface';
+import { VideoInfoInterface } from './interface/video-info.interface';
 
 @Component({
     selector:    'app-root',
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit
 
     protected videoId:string = 'WEkSYw3o5is';
 
+    private isReady:boolean = false;
+
     constructor(private socketService:SocketService)
     {
 
@@ -30,20 +33,12 @@ export class AppComponent implements OnInit
 
     public ngOnInit():void
     {
-        setTimeout(() =>
-        {
-            this.initIoConnection();
-            this.socketService.syncVideoInformation({
-                url:         this.syncData.player.getVideoUrl(),
-                currentTime: this.syncData.player.getCurrentTime()
-            });
-        }, 0);
-        this.syncData.player.playVideo();
+        this.initIoConnection();
     }
 
     public addNewVideoUrl(newUrl:string):void
     {
-        this.syncData.player.cueVideoById(this.getVideoId(newUrl));
+        this.socketService.newVideo(this.getVideoId(newUrl));
     }
 
     private getVideoId(url):string
@@ -72,7 +67,7 @@ export class AppComponent implements OnInit
             player:  player
         };
         this.syncData.player.loadVideoById(this.videoId);
-        console.log('player instance', player);
+        this.isReady = true;
     }
 
     protected onStateChange():void
@@ -83,65 +78,81 @@ export class AppComponent implements OnInit
     private initIoConnection():void
     {
         this.socketService.initSocket();
-
+        this.socketService.onEvent(Event.CONNECT).subscribe(() =>
+        {
+            this.socketService.askVideoInformation();
+        });
+        this.socketService.onEvent(Event.DISCONNECT).subscribe(() =>
+        {
+        });
+        this.socketService.onAskVideoInfo().subscribe(() =>
+        {
+            let videoInfo:VideoInfoInterface = {
+                url:  this.syncData.player.getVideoUrl(),
+                time: this.syncData.player.getCurrentTime()
+            };
+            this.socketService.syncVideoInformation(videoInfo);
+        });
         this.socketService.onMessage().subscribe((message:Message) =>
         {
             this.messages.push(message);
         });
-
         this.socketService.onSyncTime().subscribe((time:number) =>
         {
             this.syncVideoTime(time);
         });
-
-        this.socketService.onSyncVideoInformation().subscribe((videoInfo:any) =>
+        this.socketService.onNewVideo().subscribe((id:string) =>
+        {
+            this.syncData.player.loadVideoById({
+                videoId: id
+            })
+        });
+        this.socketService.onSyncVideoInformation().subscribe((videoInfo:VideoInfoInterface) =>
         {
             this.syncData.player.loadVideoById({
                 videoId:      this.getVideoId(videoInfo.url),
-                startSeconds: videoInfo.currentTime
+                startSeconds: videoInfo.time
             })
         });
-
+        this.socketService.onPlay().subscribe(() =>
+        {
+            this.syncData.player.playVideo();
+        });
+        this.socketService.onPause().subscribe(() =>
+        {
+            this.syncData.player.pauseVideo();
+        });
         this.socketService.onState().subscribe((state:number) =>
         {
-            switch(state)
+            if(!isNullOrUndefined(this.isReady))
             {
-                case -1:
-                    this.syncData.player.playVideo();
-                    break;
-                case 1:
-                    this.socketService.syncTime(this.syncData.player.getCurrentTime());
-                    this.syncData.player.playVideo();
-                    break;
-                case 2:
-                    this.syncData.player.pauseVideo();
-                    break;
-                case 3:
-                    this.socketService.syncTime(this.syncData.player.getCurrentTime());
-                default:
-                    break;
+                switch(state)
+                {
+                    case -1:
+                        this.socketService.play();
+                        break;
+                    case 1:
+                        this.socketService.play();
+                        this.socketService.syncTime(this.syncData.player.getCurrentTime());
+                        console.log(this.syncData.player.getPlayerState());
+                        break;
+                    case 2:
+                        this.socketService.pause();
+                        console.log(this.syncData.player.getPlayerState());
+                        break;
+                    case 3:
+                        this.socketService.syncTime(this.syncData.player.getCurrentTime());
+                        console.log(this.syncData.player.getPlayerState());
+                    default:
+                        break;
+                }
             }
-        });
-
-        this.socketService.onEvent(Event.CONNECT).subscribe(() =>
-        {
-            console.log('connected');
-        });
-
-        this.socketService.onEvent(Event.DISCONNECT).subscribe(() =>
-        {
-            console.log('disconnected');
         });
     }
 
     private syncVideoTime(currentTime):void
     {
-        //only sync if time is not synced yet
-        if(this.syncData.player.getCurrentTime() < currentTime - 0.2 || this.syncData.player.getCurrentTime() > currentTime + 0.2)
-        {
-            this.syncData.player.seekTo(currentTime, false);
-            this.syncData.player.playVideo();
-        }
+        this.syncData.player.seekTo(currentTime, false);
     }
 }
 

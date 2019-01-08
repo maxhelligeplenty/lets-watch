@@ -5,8 +5,9 @@ import {
 import * as express from 'express';
 import * as socketIo from 'socket.io';
 import { Socket } from 'socket.io';
-
 import { Message } from './model';
+import { Event } from './model/event.interface';
+import { VideoInfoInterface } from './model/video-info.interface';
 
 export class VideoSyncServer
 {
@@ -52,43 +53,47 @@ export class VideoSyncServer
             console.log('Running server on port %s', this.port);
         });
 
-        this.io.on('connect', (socket:Socket) =>
+        this.io.on(Event.CONNECT, (socket:Socket) =>
         {
-            console.log('Connected client on port %s.', this.port);
             socket.on('message', (m:Message) =>
             {
-                console.log('[server](message): %s', JSON.stringify(m));
                 this.io.emit('message', m);
             });
-
-            socket.on('disconnect', () =>
+            socket.on(Event.DISCONNECT, () =>
             {
                 console.log('Client disconnected');
             });
-
-            socket.on('state', (s:number) =>
+            socket.on(Event.PLAY, () =>
             {
-                this.io.emit('state', s);
+                this.io.emit(Event.PLAY);
             });
-
-            socket.on('sync-time', (t:number) =>
+            socket.on(Event.PAUSE, () =>
             {
-                this.io.emit('sync-time', t);
+                this.io.emit(Event.PAUSE);
             });
-
-            socket.on('new-video', (id:number) =>
+            socket.on(Event.STATE, (s:number) =>
             {
-                this.io.emit('new-video', id);
+                console.log(s);
+                this.io.emit(Event.STATE, s);
             });
-
-            socket.on('video-info', () =>
+            socket.on(Event.SYNC_TIME, (t:number) =>
             {
-                socket.broadcast.emit('video-info');
+                console.log(t);
+                this.io.emit(Event.SYNC_TIME, t);
             });
-
-            socket.on('sync-video-info', (v:any) =>
+            socket.on(Event.NEW_VIDEO, (i:string) =>
             {
-                this.io.emit('sync-video-info', v);
+                console.log(i);
+                this.io.emit(Event.NEW_VIDEO, i);
+            });
+            socket.on(Event.ASK_VIDEO_INFORMATION, () =>
+            {
+                socket.broadcast.emit(Event.ASK_VIDEO_INFORMATION);
+            });
+            socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface) =>
+            {
+                console.log(v);
+                this.io.emit(Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     }
