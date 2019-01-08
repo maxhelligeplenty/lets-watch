@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { YoutubePlayerModule } from 'ngx-youtube-player';
-import { SocketService } from './service/socket.service';
 
 @NgModule({
     declarations: [
@@ -14,7 +13,7 @@ import { SocketService } from './service/socket.service';
         FormsModule,
         YoutubePlayerModule
     ],
-    providers:    [SocketService],
+    providers:    [],
     bootstrap:    [AppComponent]
 })
 export class AppModule

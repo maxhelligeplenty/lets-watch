@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { SyncVideoInterface } from './interface/sync-video.interface';
 import { isNullOrUndefined } from 'util';
 import { Event } from './interface/event.interface';
@@ -16,7 +13,7 @@ const SERVER_URL = 'http://localhost:8080';
     templateUrl: './app.component.html',
     styleUrls:   ['./app.component.scss']
 })
-export class AppComponent implements OnInit
+export class AppComponent
 {
     public newVideoUrl:string;
     public syncData:SyncVideoInterface;
@@ -31,10 +28,6 @@ export class AppComponent implements OnInit
     constructor()
     {
 
-    }
-
-    public ngOnInit():void
-    {
     }
 
     public addNewVideoUrl(url:string):void
@@ -64,7 +57,7 @@ export class AppComponent implements OnInit
             player:  player,
             socket:  this.socket
         };
-        this.syncData.player.loadVideoById(this.videoId);
+        this.syncData.player.cueVideoById(this.videoId);
         this.isReady = true;
     }
 
@@ -150,7 +143,7 @@ export class AppComponent implements OnInit
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
+        if(this.syncData.player.getCurrentTime() < time - 0.5 || this.syncData.player.getCurrentTime() > time + 0.5)
         {
             this.syncData.player.seekTo(time, false);
         }
