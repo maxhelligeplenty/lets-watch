@@ -57,7 +57,7 @@ export class AppComponent
             player:  player,
             socket:  this.socket
         };
-        this.syncData.player.cueVideoById(this.videoId);
+        this.syncData.player.loadVideoById(this.videoId);
         this.isReady = true;
     }
 
@@ -68,8 +68,6 @@ export class AppComponent
             case -1:
                 this.syncData.socket.emit(Event.PLAY);
                 break;
-            case 0:
-                break;
             case 1:
                 this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
                 this.syncData.socket.emit(Event.PLAY);
@@ -79,8 +77,7 @@ export class AppComponent
                 break;
             case 3:
                 this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                break;
-            case 5:
+                this.syncData.socket.emit(Event.PLAY);
                 break;
             default:
                 break;
@@ -145,7 +142,7 @@ export class AppComponent
     {
         if(this.syncData.player.getCurrentTime() < time - 0.5 || this.syncData.player.getCurrentTime() > time + 0.5)
         {
-            this.syncData.player.seekTo(time, false);
+            this.syncData.player.seekTo(time, true);
         }
     }
 }

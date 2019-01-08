@@ -8,5 +8,6 @@ export enum Event
     SYNC_VIDEO_INFORMATION = 'sync-video-info',
     STATE = 'state',
     PLAY = 'play',
-    PAUSE = 'pause'
+    PAUSE = 'pause',
+    JOIN = 'join'
 }

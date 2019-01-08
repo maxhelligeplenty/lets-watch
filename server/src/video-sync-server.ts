@@ -55,9 +55,15 @@ export class VideoSyncServer
 
         this.io.on(Event.CONNECT, (socket:Socket) =>
         {
+            let room:string = '';
+            socket.on(Event.JOIN, (r:string) =>
+            {
+                socket.join(r);
+                room = r;
+            });
             socket.on('message', (m:Message) =>
             {
-                this.io.emit('message', m);
+                this.io.to(room).emit('message', m);
             });
             socket.on(Event.DISCONNECT, () =>
             {
@@ -65,30 +71,27 @@ export class VideoSyncServer
             });
             socket.on(Event.PLAY, () =>
             {
-                this.io.emit(Event.PLAY);
+                socket.to(room).emit(Event.PLAY);
             });
             socket.on(Event.PAUSE, () =>
             {
-                this.io.emit(Event.PAUSE);
+                socket.to(room).emit(Event.PAUSE);
             });
             socket.on(Event.SYNC_TIME, (t:number) =>
             {
-                console.log(t);
-                this.io.emit(Event.SYNC_TIME, t);
+                socket.to(room).emit(Event.SYNC_TIME, t);
             });
             socket.on(Event.NEW_VIDEO, (i:string) =>
             {
-                console.log(i);
-                this.io.emit(Event.NEW_VIDEO, i);
+                this.io.to(room).emit(Event.NEW_VIDEO, i);
             });
             socket.on(Event.ASK_VIDEO_INFORMATION, () =>
             {
-                socket.broadcast.emit(Event.ASK_VIDEO_INFORMATION);
+                socket.to(room).broadcast.emit(Event.ASK_VIDEO_INFORMATION);
             });
             socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface) =>
             {
-                console.log(v);
-                this.io.emit(Event.SYNC_VIDEO_INFORMATION, v);
+                this.io.to(room).emit(Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     }
