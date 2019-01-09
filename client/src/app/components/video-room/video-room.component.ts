@@ -9,6 +9,7 @@ import { Event } from '../../interface/event.interface';
 import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
 import * as socketIo from 'socket.io-client';
+import * as copy from 'copy-to-clipboard';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -47,6 +48,12 @@ export class VideoRoomComponent implements OnInit
         }
     }
 
+    public copyInviteLinkToClipboard():void
+    {
+        // TODO Replace with active Route
+        copy(document.location.href);
+    }
+
     private getVideoId(url):string
     {
         if(!isNullOrUndefined(url) && !isNullOrUndefined(this.syncData.player))
@@ -62,10 +69,10 @@ export class VideoRoomComponent implements OnInit
     {
         this.initIoConnection();
         this.syncData = {
-            videoId: this.videoId,
-            player:  player,
-            socket:  this.socket,
-            room:    this.room,
+            videoId:  this.videoId,
+            player:   player,
+            socket:   this.socket,
+            room:     this.room,
             clientId: this.socket.id
         };
 

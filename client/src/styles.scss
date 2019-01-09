@@ -6,6 +6,11 @@ body
     color: white !important;
 }
 
+html, body
+{
+    height: 100%;
+}
+
 iframe
 {
     width: 100% !important;

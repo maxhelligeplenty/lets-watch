@@ -1,0 +1,13 @@
+.join-button-container
+{
+    height: 100vh;
+    .join-button
+    {
+        background-color: #192f42;
+        border-radius: 5px;
+        border: 1px solid white;
+        padding: 20px;
+        position: absolute;
+        top: 50%;
+    }
+}

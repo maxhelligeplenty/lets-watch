@@ -2,8 +2,11 @@ import {
     Component,
     OnInit
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ActivatedRouteSnapshot } from '../../../../node_modules/@angular/router/src';
+import {
+    ActivatedRoute,
+    ActivatedRouteSnapshot,
+    Router
+} from '@angular/router';
 import { isNullOrUndefined } from 'util';
 
 @Component({
