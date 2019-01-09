@@ -3,3 +3,16 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.invite-button
+{
+    span
+    {
+        font-size: 1rem;
+        font-family: fontawesome;
+    }
+}
+.chat-output
+{
+    overflow: scroll;
+    height: 45vh;
+}

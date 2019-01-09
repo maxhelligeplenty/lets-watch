@@ -4,31 +4,50 @@
             <p>Current Room: {{syncData?.room}}</p>
         </div>
         <div class="col-lg-4">
-            <button class="float-right"
+            <button type="button" class="btn btn-success invite-button float-right"
                     (click)="copyInviteLinkToClipboard()">Invite Friends
+                    <span class="fas fa-user-plus"></span>
             </button>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9 p-3">
             <youtube-player [videoId]="videoId"
                             (ready)="savePlayer($event)"
                             (change)="onStateChange()">
             </youtube-player>
         </div>
-        <div class="col-lg-4">
-            <div>
-                <input type="text"
-                       [(ngModel)]="newVideoUrl">
-                <button (click)="addNewVideoUrl(newVideoUrl)">Add to Playlist</button>
-            </div>
-            <div>
-                <div *ngFor="let message of messages">
-                    {{message.from.name}} : {{message.content}}
+        <div class="col-lg-3 p-3">
+                <div class="input-group mb-3">
+                    <input [(ngModel)]="newVideoUrl" type="text" class="form-control" placeholder="Video Url"  aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button (click)="addNewVideoUrl(newVideoUrl)" 
+                                class="btn btn-outline-secondary" 
+                                type="button" 
+                                id="button-addon2">Add to Playlist
+                        </button>
+                    </div>
                 </div>
-                <input type="text"
-                       [(ngModel)]="newMessage">
-                <button (click)="sendMessage(newMessage)">Send</button>
+            <div>
+                    <div class="chat-output shadow-sm p-3 mt-2 mb-2 border rounded">
+                        <p *ngFor="let message of messages">
+                                {{message.from.name}} : {{message.content}}
+                        </p>
+                    </div>
+                    <div class="input-group">
+                            <textarea [(ngModel)]="newMessage" 
+                                      class="form-control" 
+                                      aria-describedby="send-button"
+                                      placeholder="Message"
+                                      aria-label="With textarea"></textarea>
+                            <div class="input-group-append">
+                                    <button (click)="sendMessage(newMessage)" 
+                                            class="btn btn-outline-secondary" 
+                                            type="button" 
+                                            id="send-button">Send
+                                    </button>
+                            </div>
+                    </div>
             </div>
         </div>
     </div>
