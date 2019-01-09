@@ -35,8 +35,8 @@ var VideoSyncServer = /** @class */ (function () {
                 socket.join(r);
                 room = r;
             });
-            socket.on('message', function (m) {
-                _this.io.to(room).emit('message', m);
+            socket.on(event_interface_1.Event.SEND_MESSAGE, function (m) {
+                _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, m);
             });
             socket.on(event_interface_1.Event.DISCONNECT, function () {
                 console.log('Client disconnected');

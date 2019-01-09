@@ -4,6 +4,6 @@ import { Action } from './action.interface';
 export interface Message
 {
     from?:UserInterface;
-    content?:any;
+    content?:string;
     action?:Action;
 }

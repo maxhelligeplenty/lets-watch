@@ -9,5 +9,6 @@ export enum Event
     STATE = 'state',
     PLAY = 'play',
     PAUSE = 'pause',
-    JOIN = 'join'
+    JOIN = 'join',
+    SEND_MESSAGE = 'send-message'
 }

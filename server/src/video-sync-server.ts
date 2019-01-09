@@ -61,9 +61,9 @@ export class VideoSyncServer
                 socket.join(r);
                 room = r;
             });
-            socket.on('message', (m:Message) =>
+            socket.on(Event.SEND_MESSAGE, (m:Message) =>
             {
-                this.io.to(room).emit('message', m);
+                this.io.to(room).emit(Event.SEND_MESSAGE, m);
             });
             socket.on(Event.DISCONNECT, () =>
             {

@@ -10,6 +10,7 @@ import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
 import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
+import { UserInterface } from '../../interface/user.interface';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -23,7 +24,8 @@ export class VideoRoomComponent implements OnInit
     public newVideoUrl:string;
     public syncData:SyncVideoInterface;
     public videoHistoryList:Array<string> = [];
-    public messages:Message[] = [];
+    public messages:Array<Message> = [];
+    public newMessage:string;
 
     @Input() protected room:string = 'whatHappened';
     protected videoId:string = 'WEkSYw3o5is';
@@ -73,7 +75,6 @@ export class VideoRoomComponent implements OnInit
             player:   player,
             socket:   this.socket,
             room:     this.room,
-            clientId: this.socket.id
         };
 
         this.syncData.player.loadVideoById(this.videoId);
@@ -106,12 +107,26 @@ export class VideoRoomComponent implements OnInit
         }
     }
 
+    protected sendMessage(text:string):void
+    {
+        console.log(this.syncData.clientId);
+        let user:UserInterface = {
+            name: this.syncData.clientId
+        };
+        let message:Message = {
+            from:    user,
+            content: text
+        };
+        this.syncData.socket.emit(Event.SEND_MESSAGE, message);
+    }
+
     private initIoConnection():void
     {
         this.socket = socketIo(SERVER_URL);
 
         this.socket.on(Event.CONNECT, () =>
         {
+            this.syncData.clientId = this.socket.id;
             this.socket.emit(Event.JOIN, this.syncData.room);
             this.socket.emit(Event.ASK_VIDEO_INFORMATION);
         });
@@ -119,6 +134,12 @@ export class VideoRoomComponent implements OnInit
         this.socket.on(Event.DISCONNECT, () =>
         {
             console.log('Cya');
+        });
+
+        this.socket.on(Event.SEND_MESSAGE, (message:Message) =>
+        {
+            console.log(message);
+            this.messages.push(message);
         });
 
         this.socket.on(Event.PLAY, () =>

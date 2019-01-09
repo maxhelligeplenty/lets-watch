@@ -22,11 +22,13 @@
                        [(ngModel)]="newVideoUrl">
                 <button (click)="addNewVideoUrl(newVideoUrl)">Add to Playlist</button>
             </div>
-            <div *ngFor="let message of messages">
-                {{message.content}}
-            </div>
             <div>
-                PLAYLIST
+                <div *ngFor="let message of messages">
+                    {{message.from.name}} : {{message.content}}
+                </div>
+                <input type="text"
+                       [(ngModel)]="newMessage">
+                <button (click)="sendMessage(newMessage)">Send</button>
             </div>
         </div>
     </div>

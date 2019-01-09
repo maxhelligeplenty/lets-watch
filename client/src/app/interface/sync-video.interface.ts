@@ -6,5 +6,5 @@ export interface SyncVideoInterface
     socket:socketIo;
     player:YT.Player;
     room:string;
-    clientId:string;
+    clientId?:string;
 }
