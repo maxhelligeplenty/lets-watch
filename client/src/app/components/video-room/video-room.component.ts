@@ -10,7 +10,6 @@ import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
 import * as socketIo from 'socket.io-client';
 
-
 const SERVER_URL = 'http://localhost:8080';
 
 @Component({
@@ -74,24 +73,27 @@ export class VideoRoomComponent implements OnInit
 
     protected onStateChange():void
     {
-        switch(this.syncData.player.getPlayerState())
+        if(this.isReady)
         {
-            case -1:
-                this.syncData.socket.emit(Event.PLAY);
-                break;
-            case 1:
-                this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                this.syncData.socket.emit(Event.PLAY);
-                break;
-            case 2:
-                this.syncData.socket.emit(Event.PAUSE);
-                break;
-            case 3:
-                this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                this.syncData.socket.emit(Event.PLAY);
-                break;
-            default:
-                break;
+            switch(this.syncData.player.getPlayerState())
+            {
+                case -1:
+                    this.syncData.socket.emit(Event.PLAY);
+                    break;
+                case 1:
+                    this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                    this.syncData.socket.emit(Event.PLAY);
+                    break;
+                case 2:
+                    this.syncData.socket.emit(Event.PAUSE);
+                    break;
+                case 3:
+                    this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                    this.syncData.socket.emit(Event.PLAY);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -101,6 +103,7 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.CONNECT, () =>
         {
+            this.socket.emit(Event.JOIN, this.syncData.room);
             this.socket.emit(Event.ASK_VIDEO_INFORMATION);
         });
 
@@ -157,4 +160,3 @@ export class VideoRoomComponent implements OnInit
         }
     }
 }
-

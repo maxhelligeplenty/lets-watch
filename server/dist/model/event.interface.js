@@ -11,4 +11,5 @@ var Event;
     Event["STATE"] = "state";
     Event["PLAY"] = "play";
     Event["PAUSE"] = "pause";
+    Event["JOIN"] = "join";
 })(Event = exports.Event || (exports.Event = {}));

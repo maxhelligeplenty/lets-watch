@@ -30,32 +30,34 @@ var VideoSyncServer = /** @class */ (function () {
             console.log('Running server on port %s', _this.port);
         });
         this.io.on(event_interface_1.Event.CONNECT, function (socket) {
+            var room = '';
+            socket.on(event_interface_1.Event.JOIN, function (r) {
+                socket.join(r);
+                room = r;
+            });
             socket.on('message', function (m) {
-                _this.io.emit('message', m);
+                _this.io.to(room).emit('message', m);
             });
             socket.on(event_interface_1.Event.DISCONNECT, function () {
                 console.log('Client disconnected');
             });
             socket.on(event_interface_1.Event.PLAY, function () {
-                _this.io.emit(event_interface_1.Event.PLAY);
+                socket.to(room).emit(event_interface_1.Event.PLAY);
             });
             socket.on(event_interface_1.Event.PAUSE, function () {
-                _this.io.emit(event_interface_1.Event.PAUSE);
+                socket.to(room).emit(event_interface_1.Event.PAUSE);
             });
             socket.on(event_interface_1.Event.SYNC_TIME, function (t) {
-                console.log(t);
-                _this.io.emit(event_interface_1.Event.SYNC_TIME, t);
+                socket.to(room).emit(event_interface_1.Event.SYNC_TIME, t);
             });
             socket.on(event_interface_1.Event.NEW_VIDEO, function (i) {
-                console.log(i);
-                _this.io.emit(event_interface_1.Event.NEW_VIDEO, i);
+                _this.io.to(room).emit(event_interface_1.Event.NEW_VIDEO, i);
             });
             socket.on(event_interface_1.Event.ASK_VIDEO_INFORMATION, function () {
-                socket.broadcast.emit(event_interface_1.Event.ASK_VIDEO_INFORMATION);
+                socket.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION);
             });
             socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v) {
-                console.log(v);
-                _this.io.emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
+                _this.io.to(room).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     };
