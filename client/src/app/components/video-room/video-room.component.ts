@@ -65,8 +65,10 @@ export class VideoRoomComponent implements OnInit
             videoId: this.videoId,
             player:  player,
             socket:  this.socket,
-            room:    this.room
+            room:    this.room,
+            clientId: this.socket.id
         };
+
         this.syncData.player.loadVideoById(this.videoId);
         this.isReady = true;
     }
