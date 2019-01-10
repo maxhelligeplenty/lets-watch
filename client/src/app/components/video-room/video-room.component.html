@@ -35,11 +35,11 @@
                         </p>
                     </div>
                     <div class="input-group">
-                            <textarea [(ngModel)]="newMessage" 
+                            <input [(ngModel)]="newMessage" 
                                       class="form-control" 
                                       aria-describedby="send-button"
                                       placeholder="Message"
-                                      aria-label="With textarea"></textarea>
+                                      aria-label="With textarea">
                             <div class="input-group-append">
                                     <button (click)="sendMessage(newMessage)" 
                                             class="btn btn-outline-secondary" 

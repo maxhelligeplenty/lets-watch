@@ -1,13 +1,52 @@
-.join-button-container
+.join-button
 {
-    height: 100vh;
-    .join-button
+    border-radius: 2px;
+    border: 2px solid white;
+    padding: 20px;
+    position: absolute;
+    background-color: rgb(53, 53, 53);
+    top: 50%;
+    &:hover
     {
-        background-color: #192f42;
-        border-radius: 5px;
-        border: 1px solid white;
-        padding: 20px;
-        position: absolute;
-        top: 50%;
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: transparent;
     }
+}
+.start-page
+{
+    background-image: url('../../../assets/images/mountains-1412683.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@media (max-width: 575.98px)
+{
+    .legal{
+        display: flex;
+        justify-content: center;
+    }
+}
+.legal
+{
+    span
+    {
+        padding: 10px;
+        font-size: 1.3rem;
+        float: right;
+    }
+}
+.footer
+{
+    height: 10vh;
+}
+.main-container
+{
+    height: 90vh;
+}
+.donate
+{
+    font-size: 2rem;
+    font-family: fontawesome;
+    color: beige;
 }
