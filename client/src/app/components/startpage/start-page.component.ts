@@ -19,6 +19,11 @@ export class StartPageComponent implements OnInit
     {
     }
 
+    public navigateToDatenschutz():void
+    {
+        this.router.navigate(['/datenschutz']);
+    }
+
     public joinRoom():void
     {
         this.router.navigate(['/room',

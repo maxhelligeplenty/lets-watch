@@ -1,10 +1,10 @@
 <div class="room-view container-fluid">
     <div class="row">
         <div class="col-lg-8">
-            <p>Current Room: {{syncData?.room}}</p>
+            <h3>Room: {{syncData?.room}}</h3>
         </div>
         <div class="col-lg-4">
-            <button type="button" class="btn btn-success invite-button float-right"
+            <button type="button" class="invite-button float-right"
                     (click)="copyInviteLinkToClipboard()">Invite Friends
                     <span class="fas fa-user-plus"></span>
             </button>
@@ -18,40 +18,32 @@
             </youtube-player>
         </div>
         <div class="col-lg-3 p-3">
-                <div class="input-group mb-3">
-                    <input [(ngModel)]="newVideoUrl" type="text" class="form-control" placeholder="Video Url"  aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                        <button (click)="addNewVideoUrl(newVideoUrl)" 
-                                class="btn btn-outline-secondary" 
-                                type="button" 
-                                id="button-addon2">Add to Playlist
-                        </button>
-                    </div>
-                </div>
-            <div>
-                    <div class="chat-output shadow-sm p-3 mt-2 mb-2 border rounded">
-                        <p *ngFor="let message of messages">
-                                {{message.from.name}} : {{message.content}}
-                        </p>
-                    </div>
-                    <div class="input-group">
-                            <input [(ngModel)]="newMessage" 
-                                      class="form-control" 
-                                      aria-describedby="send-button"
-                                      placeholder="Message"
-                                      aria-label="With textarea">
-                            <div class="input-group-append">
-                                    <button (click)="sendMessage(newMessage)" 
-                                            class="btn btn-outline-secondary" 
-                                            type="button" 
-                                            id="send-button">Send
-                                    </button>
-                            </div>
-                    </div>
+            <div class="chat-output p-3 mb-3">
+                <p *ngFor="let message of messages">
+                        {{message.from.name}} : {{message.content}}
+                </p>
+            </div>
+            <div class="send-message-container">
+                    <input [(ngModel)]="newMessage"
+                                class="message-input" 
+                                placeholder="Message">
+                    <button (click)="sendMessage(newMessage)" 
+                            type="button"
+                            class="float-right" 
+                            id="send-button"><span class="fas fa-paper-plane"></span>
+                    </button>
             </div>
         </div>
     </div>
-    <div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="add-video-url-container mb-3">
+                <input [(ngModel)]="newVideoUrl" type="text" placeholder="Add video url to playlist">
+                <button (click)="addNewVideoUrl(newVideoUrl)" type="button">
+                    <span class="fas fa-plus-square"></span>
+                </button>
+            </div>
+        </div>
         <div class="col-lg-12">
             HISTORY
         </div>

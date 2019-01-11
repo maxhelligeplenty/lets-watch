@@ -1,3 +1,14 @@
+.c-link
+{
+    color: white !important;
+    &:hover
+    {
+        cursor: pointer;
+        color:white !important;
+        text-decoration: underline !important;
+    }
+}
+
 .join-button
 {
     border-radius: 2px;
@@ -11,6 +22,22 @@
         transition: 0.3s;
         cursor: pointer;
         background-color: transparent;
+    }
+}
+.brand
+{
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0.9;
+    top: 10px;
+    background-color:rgb(53, 53, 53);
+    text-align: center;
+    .brand-icon
+    {
+        font-family: fontawesome;
+        margin-right: 10px;
     }
 }
 .start-page
@@ -39,14 +66,19 @@
 .footer
 {
     height: 10vh;
+    
+    .credits
+    {
+        font-size: 1.3rem;
+        padding: 10px;
+        .fa-heart
+        {
+            font-family: fontawesome;
+            color: deeppink;
+        }
+    }
 }
 .main-container
 {
     height: 90vh;
-}
-.donate
-{
-    font-size: 2rem;
-    font-family: fontawesome;
-    color: beige;
 }
