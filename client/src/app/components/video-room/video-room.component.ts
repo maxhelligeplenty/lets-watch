@@ -28,7 +28,7 @@ export class VideoRoomComponent implements OnInit
     public newMessage:string;
 
     @Input() protected room:string = 'whatHappened';
-    protected videoId:string = 'WEkSYw3o5is';
+    protected videoId:string = 'xfr-OiX-46w';
 
     private isReady:boolean = false;
     private socket;
