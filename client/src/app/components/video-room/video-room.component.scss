@@ -3,3 +3,68 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.invite-button
+{
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 2px;
+    span
+    {
+        font-size: 1rem;
+        font-family: fontawesome;
+    }
+}
+.chat-output
+{
+    overflow: scroll;
+    height: 50vh;
+    background-color: black;
+}
+.send-message-container
+{
+    display: flex;
+    width: 100%;
+    #send-button
+    {
+        background-color: black;
+        color: white;
+        outline: none;
+        border-left: 1px solid white;
+        outline: none;
+    }
+    .fa-paper-plane
+    {
+        font-family: fontawesome;
+        padding: 10px;
+        font-size: 1.3rem;
+    }
+}
+input
+    {
+        outline: none;
+        padding: 10px;
+        color: white;
+        background-color: black;
+        border:none;
+        flex-grow: 1;
+    }
+
+.add-video-url-container
+{
+    display: flex;
+    button
+    {
+        background-color: black;
+        color: white;
+        outline: none;
+        border-left: 1px solid white;
+        outline: none;
+        padding: 10px 20px;
+        span
+        {
+            font-size: 1.3rem;
+            font-family: fontawesome;
+        }
+    }
+}

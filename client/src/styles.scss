@@ -1,4 +1,7 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
+@import 'assets/styles/global-components';
 
 body
 {
@@ -15,4 +18,13 @@ iframe
 {
     width: 100% !important;
     height: 500px !important;
+}
+
+@media (max-width: 575.98px)
+{
+    iframe
+    {
+        width: 100% !important;
+        height: auto !important;
+    }
 }

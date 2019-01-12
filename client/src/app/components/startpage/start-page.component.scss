@@ -1,13 +1,84 @@
-.join-button-container
+.c-link
 {
-    height: 100vh;
-    .join-button
+    color: white !important;
+    &:hover
     {
-        background-color: #192f42;
-        border-radius: 5px;
-        border: 1px solid white;
-        padding: 20px;
-        position: absolute;
-        top: 50%;
+        cursor: pointer;
+        color:white !important;
+        text-decoration: underline !important;
     }
+}
+
+.join-button
+{
+    border-radius: 2px;
+    border: 2px solid white;
+    padding: 20px;
+    position: absolute;
+    background-color: rgb(53, 53, 53);
+    top: 50%;
+    &:hover
+    {
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: transparent;
+    }
+}
+.brand
+{
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0.9;
+    top: 10px;
+    background-color:rgb(53, 53, 53);
+    text-align: center;
+    .brand-icon
+    {
+        font-family: fontawesome;
+        margin-right: 10px;
+    }
+}
+.start-page
+{
+    background-image: url('../../../assets/images/mountains-1412683.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@media (max-width: 575.98px)
+{
+    .legal{
+        display: flex;
+        justify-content: center;
+    }
+}
+.legal
+{
+    span
+    {
+        padding: 10px;
+        font-size: 1.3rem;
+        float: right;
+    }
+}
+.footer
+{
+    height: 10vh;
+    
+    .credits
+    {
+        font-size: 1.3rem;
+        padding: 10px;
+        .fa-heart
+        {
+            font-family: fontawesome;
+            color: deeppink;
+        }
+    }
+}
+.main-container
+{
+    height: 90vh;
 }
