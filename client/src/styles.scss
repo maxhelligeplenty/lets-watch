@@ -19,3 +19,12 @@ iframe
     width: 100% !important;
     height: 500px !important;
 }
+
+@media (max-width: 575.98px)
+{
+    iframe
+    {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
