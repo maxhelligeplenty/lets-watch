@@ -187,7 +187,7 @@ export class VideoRoomComponent implements OnInit
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.5 || this.syncData.player.getCurrentTime() > time + 0.5)
+        if(this.syncData.player.getCurrentTime() < time - 0.1 || this.syncData.player.getCurrentTime() > time + 0.1)
         {
             this.syncData.player.seekTo(time, true);
         }
