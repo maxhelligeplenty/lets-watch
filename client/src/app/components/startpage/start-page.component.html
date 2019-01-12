@@ -1,5 +1,27 @@
-<div class="join-button-container d-flex justify-content-center">
-    <div class="join-button" (click)="joinRoom()">
-        Create a new Room
+<div class="container-fluid start-page">
+    <div class="brand">
+        <h1><span class="brand-icon fas fa-play-circle"></span>Let's Watch</h1>
+    </div>
+    <div class="row">
+            <div class="col-lg-12 main-container d-flex justify-content-center">
+                <div class="join-button"
+                         (click)="joinRoom()">
+                    Create a new Room
+                </div>
+            </div>
+    </div>
+    <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 footer text-center">
+                <div class="credits">
+                    <span>made with <span class="fas fa-heart"></span> by <strong><a class="c-link" href="https://roelldev.de" target="_blank">roelldev.de</a></strong> and
+                    <strong><a class="c-link" href="https://github.com/maxhelligeplenty" target="_blank">maxhellige</a></strong>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 footer legal">
+                <span><a>Impressum</a></span>
+                <span><a class="c-link" (click)="navigateToDatenschutz()">Datenschutz</a></span>
+            </div>
     </div>
 </div>

@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routing';
 import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.component';
 import { StartPageViewComponent } from './views/start-page-view/start-page-view.component';
+import { DatenschutzComponent } from './components/datenschutz/datenschutz.component';
+import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-view.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +18,9 @@ import { StartPageViewComponent } from './views/start-page-view/start-page-view.
         VideoRoomViewComponent,
         StartPageViewComponent,
         VideoRoomComponent,
-        StartPageComponent
+        StartPageComponent,
+        DatenschutzViewComponent,
+        DatenschutzComponent
     ],
     imports:      [
         BrowserModule,

@@ -116,7 +116,11 @@ export class VideoRoomComponent implements OnInit
             from:    user,
             content: text
         };
-        this.syncData.socket.emit(Event.SEND_MESSAGE, message);
+        if(text.length !== 0)
+        {
+            this.syncData.socket.emit(Event.SEND_MESSAGE, message);
+            this.newMessage = "";
+        }
     }
 
     private initIoConnection():void
