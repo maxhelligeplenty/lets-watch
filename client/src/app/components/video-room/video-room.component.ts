@@ -109,7 +109,6 @@ export class VideoRoomComponent implements OnInit
 
     protected sendMessage(text:string):void
     {
-        console.log(this.syncData.clientId);
         let user:UserInterface = {
             name: this.syncData.clientId
         };
@@ -129,6 +128,7 @@ export class VideoRoomComponent implements OnInit
             this.syncData.clientId = this.socket.id;
             this.socket.emit(Event.JOIN, this.syncData.room);
             this.socket.emit(Event.ASK_VIDEO_INFORMATION);
+            this.sendMessage('connected');
         });
 
         this.socket.on(Event.DISCONNECT, () =>
@@ -138,7 +138,6 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SEND_MESSAGE, (message:Message) =>
         {
-            console.log(message);
             this.messages.push(message);
         });
 
