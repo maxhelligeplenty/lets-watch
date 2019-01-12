@@ -47,6 +47,7 @@ export class VideoRoomComponent implements OnInit
         if(!isNullOrUndefined(url))
         {
             this.syncData.socket.emit(Event.NEW_VIDEO, url);
+            this.newVideoUrl = undefined;
         }
     }
 
@@ -71,10 +72,10 @@ export class VideoRoomComponent implements OnInit
     {
         this.initIoConnection();
         this.syncData = {
-            videoId:  this.videoId,
-            player:   player,
-            socket:   this.socket,
-            room:     this.room,
+            videoId: this.videoId,
+            player:  player,
+            socket:  this.socket,
+            room:    this.room,
         };
 
         this.syncData.player.loadVideoById(this.videoId);
@@ -109,17 +110,17 @@ export class VideoRoomComponent implements OnInit
 
     protected sendMessage(text:string):void
     {
-        let user:UserInterface = {
-            name: this.syncData.clientId
-        };
-        let message:Message = {
-            from:    user,
-            content: text
-        };
-        if(text.length !== 0)
+        if(!isNullOrUndefined(text))
         {
+            let user:UserInterface = {
+                name: this.syncData.clientId
+            };
+            let message:Message = {
+                from:    user,
+                content: text
+            };
             this.syncData.socket.emit(Event.SEND_MESSAGE, message);
-            this.newMessage = "";
+            this.newMessage = undefined;
         }
     }
 
