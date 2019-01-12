@@ -11,6 +11,8 @@ import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.
 import { StartPageViewComponent } from './views/start-page-view/start-page-view.component';
 import { DatenschutzComponent } from './components/datenschutz/datenschutz.component';
 import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieLawModule } from 'angular2-cookie-law';
 
 @NgModule({
     declarations: [
@@ -24,6 +26,8 @@ import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-v
     ],
     imports:      [
         BrowserModule,
+        BrowserAnimationsModule,
+        CookieLawModule,
         FormsModule,
         YoutubePlayerModule,
         RouterModule.forRoot(
