@@ -31,15 +31,22 @@ var VideoSyncServer = /** @class */ (function () {
         });
         this.io.on(event_interface_1.Event.CONNECT, function (socket) {
             var room = '';
-            socket.on(event_interface_1.Event.JOIN, function (r) {
+            var clientId = '';
+            socket.on(event_interface_1.Event.JOIN, function (r, c) {
                 socket.join(r);
                 room = r;
+                clientId = c;
+                _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, {
+                    content: clientId + ' connected'
+                });
             });
             socket.on(event_interface_1.Event.SEND_MESSAGE, function (m) {
                 _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, m);
             });
             socket.on(event_interface_1.Event.DISCONNECT, function () {
-                console.log('Client disconnected');
+                _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, {
+                    content: clientId + ' disconnected'
+                });
             });
             socket.on(event_interface_1.Event.PLAY, function () {
                 socket.to(room).emit(event_interface_1.Event.PLAY);

@@ -20,7 +20,7 @@
         <div class="col-lg-3 p-3">
             <div class="chat-output p-3 mb-3">
                 <p *ngFor="let message of messages">
-                    {{message.from.name}} : {{message.content}}
+                    <span *ngIf="message.from">{{message.from.name}} :</span> {{message.content}}
                 </p>
             </div>
             <div class="send-message-container">

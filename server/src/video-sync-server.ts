@@ -56,10 +56,15 @@ export class VideoSyncServer
         this.io.on(Event.CONNECT, (socket:Socket) =>
         {
             let room:string = '';
-            socket.on(Event.JOIN, (r:string) =>
+            let clientId:string = '';
+            socket.on(Event.JOIN, (r:string, c:string) =>
             {
                 socket.join(r);
                 room = r;
+                clientId = c;
+                this.io.to(room).emit(Event.SEND_MESSAGE, {
+                    content: clientId + ' connected'
+                });
             });
             socket.on(Event.SEND_MESSAGE, (m:Message) =>
             {
@@ -67,7 +72,9 @@ export class VideoSyncServer
             });
             socket.on(Event.DISCONNECT, () =>
             {
-                console.log('Client disconnected');
+                this.io.to(room).emit(Event.SEND_MESSAGE, {
+                    content: clientId + ' disconnected'
+                });
             });
             socket.on(Event.PLAY, () =>
             {

@@ -130,14 +130,8 @@ export class VideoRoomComponent implements OnInit
         this.socket.on(Event.CONNECT, () =>
         {
             this.syncData.clientId = this.socket.id;
-            this.socket.emit(Event.JOIN, this.syncData.room);
+            this.socket.emit(Event.JOIN, this.syncData.room, this.syncData.clientId);
             this.socket.emit(Event.ASK_VIDEO_INFORMATION);
-            this.sendMessage('connected');
-        });
-
-        this.socket.on(Event.DISCONNECT, () =>
-        {
-            console.log('Cya');
         });
 
         this.socket.on(Event.SEND_MESSAGE, (message:Message) =>
