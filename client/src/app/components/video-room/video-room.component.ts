@@ -130,7 +130,7 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.CONNECT, () =>
         {
-            this.syncData.clientId = this.socket.id;
+            this.syncData.clientId = this.socket.id.substr(0, 4);
             this.socket.emit(Event.JOIN, this.syncData.room, this.syncData.clientId);
             this.socket.emit(Event.ASK_VIDEO_INFORMATION);
         });
@@ -182,7 +182,7 @@ export class VideoRoomComponent implements OnInit
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
+        if(this.syncData.player.getCurrentTime() < time - 0.15 || this.syncData.player.getCurrentTime() > time + 0.15)
         {
             this.syncData.player.seekTo(time, true);
         }
