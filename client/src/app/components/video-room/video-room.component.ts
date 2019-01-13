@@ -1,16 +1,19 @@
 import {
     Component,
     Input,
-    OnInit
+    OnInit,
+    ViewChild
 } from '@angular/core';
 import { SyncVideoInterface } from '../../interface/sync-video.interface';
 import { Message } from '../../interface/message.interface';
 import { Event } from '../../interface/event.interface';
 import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
+import { UserInterface } from '../../interface/user.interface';
+
 import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
-import { UserInterface } from '../../interface/user.interface';
+import * as rug from 'random-username-generator';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -21,16 +24,18 @@ const SERVER_URL = 'http://localhost:8080';
 })
 export class VideoRoomComponent implements OnInit
 {
+    @Input() protected room:string = 'whatHappened';
+
     public newVideoUrl:string;
     public syncData:SyncVideoInterface;
     public videoHistoryList:Array<string> = [];
     public messages:Array<Message> = [];
     public newMessage:string;
 
-    @Input() protected room:string = 'whatHappened';
     protected videoId:string = 'xfr-OiX-46w';
 
     private isReady:boolean = false;
+    private user:UserInterface;
     private socket;
 
     constructor()
@@ -77,8 +82,7 @@ export class VideoRoomComponent implements OnInit
             socket:  this.socket,
             room:    this.room,
         };
-
-        this.syncData.player.loadVideoById(this.videoId);
+        this.syncData.player.playVideo();
         this.isReady = true;
     }
 
@@ -112,11 +116,8 @@ export class VideoRoomComponent implements OnInit
     {
         if(!isNullOrUndefined(text))
         {
-            let user:UserInterface = {
-                name: this.syncData.clientId
-            };
             let message:Message = {
-                from:    user,
+                from:    this.user,
                 content: text
             };
             this.syncData.socket.emit(Event.SEND_MESSAGE, message);
@@ -130,9 +131,13 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.CONNECT, () =>
         {
-            this.syncData.clientId = this.socket.id.substr(0, 4);
-            this.socket.emit(Event.JOIN, this.syncData.room, this.syncData.clientId);
-            this.socket.emit(Event.ASK_VIDEO_INFORMATION);
+            this.syncData.clientId = this.socket.id;
+            this.user = {
+                id:   this.syncData.clientId,
+                name: rug.generate()
+            };
+            this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
+            this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION);
         });
 
         this.socket.on(Event.SEND_MESSAGE, (message:Message) =>
@@ -168,13 +173,13 @@ export class VideoRoomComponent implements OnInit
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
             };
-            this.socket.emit(Event.SYNC_VIDEO_INFORMATION, videoInfo);
+            this.syncData.socket.emit(Event.SYNC_VIDEO_INFORMATION, videoInfo);
         });
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
             this.syncData.player.loadVideoById({
-                videoId:      this.getVideoId(videoInfo.url),
+                videoId: this.getVideoId(videoInfo.url),
                 startSeconds: videoInfo.time
             });
         });
@@ -182,7 +187,7 @@ export class VideoRoomComponent implements OnInit
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.15 || this.syncData.player.getCurrentTime() > time + 0.15)
+        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
         {
             this.syncData.player.seekTo(time, true);
         }

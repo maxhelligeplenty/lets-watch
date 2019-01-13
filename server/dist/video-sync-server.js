@@ -61,10 +61,10 @@ var VideoSyncServer = /** @class */ (function () {
                 _this.io.to(room).emit(event_interface_1.Event.NEW_VIDEO, i);
             });
             socket.on(event_interface_1.Event.ASK_VIDEO_INFORMATION, function () {
-                socket.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION);
+                socket.broadcast.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION);
             });
             socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v) {
-                _this.io.to(room).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
+                socket.broadcast.to(room).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     };

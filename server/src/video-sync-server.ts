@@ -56,14 +56,14 @@ export class VideoSyncServer
         this.io.on(Event.CONNECT, (socket:Socket) =>
         {
             let room:string = '';
-            let clientId:string = '';
+            let username:string = '';
             socket.on(Event.JOIN, (r:string, c:string) =>
             {
                 socket.join(r);
                 room = r;
-                clientId = c;
+                username = c;
                 this.io.to(room).emit(Event.SEND_MESSAGE, {
-                    content: clientId + ' connected'
+                    content: username + ' connected'
                 });
             });
             socket.on(Event.SEND_MESSAGE, (m:Message) =>
@@ -73,7 +73,7 @@ export class VideoSyncServer
             socket.on(Event.DISCONNECT, () =>
             {
                 this.io.to(room).emit(Event.SEND_MESSAGE, {
-                    content: clientId + ' disconnected'
+                    content: username + ' disconnected'
                 });
             });
             socket.on(Event.PLAY, () =>
@@ -94,11 +94,11 @@ export class VideoSyncServer
             });
             socket.on(Event.ASK_VIDEO_INFORMATION, () =>
             {
-                socket.to(room).emit(Event.ASK_VIDEO_INFORMATION);
+                socket.broadcast.to(room).emit(Event.ASK_VIDEO_INFORMATION);
             });
             socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface) =>
             {
-                this.io.to(room).emit(Event.SYNC_VIDEO_INFORMATION, v);
+                socket.broadcast.to(room).emit(Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     }
