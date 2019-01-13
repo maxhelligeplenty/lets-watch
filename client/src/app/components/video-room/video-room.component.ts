@@ -82,7 +82,6 @@ export class VideoRoomComponent implements OnInit
             room:    this.room,
         };
         this.syncData.player.playVideo();
-        this.isReady = true;
     }
 
     protected onStateChange():void
@@ -167,6 +166,7 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, () =>
         {
+            this.isReady = true;
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
@@ -176,8 +176,11 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            this.videoId = this.getVideoId(videoInfo.url);
-            this.syncData.player.seekTo(videoInfo.time, true);
+            this.syncData.player.loadVideoById({
+                videoId: this.getVideoId(videoInfo.url),
+                startSeconds: videoInfo.time
+            });
+            this.isReady = true;
         });
     }
 
