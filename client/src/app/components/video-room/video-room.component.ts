@@ -170,6 +170,7 @@ export class VideoRoomComponent implements OnInit
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
         {
             // TODO TEST if send player and sync with ViewChild on Player makes same / better function as / than current
+            // TODO so we can build on VC
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
