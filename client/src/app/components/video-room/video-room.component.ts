@@ -89,7 +89,6 @@ export class VideoRoomComponent implements OnInit
     {
         if(this.isReady)
         {
-            console.log(this.syncData.player.getPlayerState());
             switch(this.syncData.player.getPlayerState())
             {
                 case -1:
@@ -179,10 +178,6 @@ export class VideoRoomComponent implements OnInit
         {
             this.videoId = this.getVideoId(videoInfo.url);
             this.syncData.player.seekTo(videoInfo.time, true);
-            //this.syncData.player.loadVideoById({
-            //    videoId:      this.getVideoId(videoInfo.url),
-            //    startSeconds: videoInfo.time
-            //});
         });
     }
 
