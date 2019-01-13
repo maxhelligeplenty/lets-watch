@@ -179,9 +179,8 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            //this.syncData.player.loadVideoById({videoId: this.getVideoId(videoInfo.url)});
+            this.syncData.player.loadVideoById({videoId: this.getVideoId(videoInfo.url)});
             this.syncData.player.seekTo(videoInfo.time, true);
-            this.videoId = this.getVideoId(videoInfo.url);
         });
     }
 
