@@ -82,6 +82,7 @@ export class VideoRoomComponent implements OnInit
             room:    this.room,
         };
         this.syncData.player.playVideo();
+        this.isReady = true;
     }
 
     protected onStateChange():void
@@ -134,7 +135,7 @@ export class VideoRoomComponent implements OnInit
                 name: rug.generate()
             };
             this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
-            this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION);
+            this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION, this.socket.id);
         });
 
         this.socket.on(Event.SEND_MESSAGE, (message:Message) =>
@@ -164,23 +165,25 @@ export class VideoRoomComponent implements OnInit
             });
         });
 
-        this.socket.on(Event.ASK_VIDEO_INFORMATION, () =>
+        this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
         {
-            this.isReady = true;
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
             };
-            this.syncData.socket.emit(Event.SYNC_VIDEO_INFORMATION, videoInfo);
+            this.syncData.socket.emit(Event.SYNC_VIDEO_INFORMATION, videoInfo, socketId);
         });
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
+            this.isReady = false;
             this.syncData.player.loadVideoById({
                 videoId:      this.getVideoId(videoInfo.url),
                 startSeconds: videoInfo.time
             });
-            this.isReady = true;
+            setTimeout(() => {
+                this.isReady = true;
+            }, 500);
         });
     }
 

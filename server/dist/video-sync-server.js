@@ -31,13 +31,13 @@ var VideoSyncServer = /** @class */ (function () {
         });
         this.io.on(event_interface_1.Event.CONNECT, function (socket) {
             var room = '';
-            var clientId = '';
+            var username = '';
             socket.on(event_interface_1.Event.JOIN, function (r, c) {
                 socket.join(r);
                 room = r;
-                clientId = c;
+                username = c;
                 _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, {
-                    content: clientId + ' connected'
+                    content: username + ' connected'
                 });
             });
             socket.on(event_interface_1.Event.SEND_MESSAGE, function (m) {
@@ -45,7 +45,7 @@ var VideoSyncServer = /** @class */ (function () {
             });
             socket.on(event_interface_1.Event.DISCONNECT, function () {
                 _this.io.to(room).emit(event_interface_1.Event.SEND_MESSAGE, {
-                    content: clientId + ' disconnected'
+                    content: username + ' disconnected'
                 });
             });
             socket.on(event_interface_1.Event.PLAY, function () {
@@ -60,11 +60,11 @@ var VideoSyncServer = /** @class */ (function () {
             socket.on(event_interface_1.Event.NEW_VIDEO, function (i) {
                 _this.io.to(room).emit(event_interface_1.Event.NEW_VIDEO, i);
             });
-            socket.on(event_interface_1.Event.ASK_VIDEO_INFORMATION, function () {
-                socket.broadcast.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION);
+            socket.on(event_interface_1.Event.ASK_VIDEO_INFORMATION, function (socketId) {
+                socket.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION, socketId);
             });
-            socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v) {
-                socket.broadcast.to(room).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
+            socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v, socketId) {
+                socket.broadcast.to(socketId).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
             });
         });
     };
