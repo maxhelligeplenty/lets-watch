@@ -91,7 +91,7 @@ export class VideoRoomComponent implements OnInit
             switch(this.syncData.player.getPlayerState())
             {
                 case -1:
-                    this.syncData.socket.emit(Event.PLAY);
+                    this.syncData.player.playVideo();
                     break;
                 case 1:
                     this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
