@@ -1,8 +1,7 @@
 import {
     Component,
     Input,
-    OnInit,
-    ViewChild
+    OnInit
 } from '@angular/core';
 import { SyncVideoInterface } from '../../interface/sync-video.interface';
 import { Message } from '../../interface/message.interface';
@@ -90,6 +89,7 @@ export class VideoRoomComponent implements OnInit
     {
         if(this.isReady)
         {
+            console.log(this.syncData.player.getPlayerState());
             switch(this.syncData.player.getPlayerState())
             {
                 case -1:
@@ -103,8 +103,7 @@ export class VideoRoomComponent implements OnInit
                     this.syncData.socket.emit(Event.PAUSE);
                     break;
                 case 3:
-                    this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                    this.syncData.socket.emit(Event.PLAY);
+                    this.syncData.player.playVideo();
                     break;
                 default:
                     break;
@@ -178,16 +177,18 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            this.syncData.player.loadVideoById({
-                videoId: this.getVideoId(videoInfo.url),
-                startSeconds: videoInfo.time
-            });
+            this.videoId = this.getVideoId(videoInfo.url);
+            this.syncData.player.seekTo(videoInfo.time, true);
+            //this.syncData.player.loadVideoById({
+            //    videoId:      this.getVideoId(videoInfo.url),
+            //    startSeconds: videoInfo.time
+            //});
         });
     }
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
+        if(this.syncData.player.getCurrentTime() < time - 0.175 || this.syncData.player.getCurrentTime() > time + 0.175)
         {
             this.syncData.player.seekTo(time, true);
         }
