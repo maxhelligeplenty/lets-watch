@@ -92,7 +92,6 @@ export class VideoRoomComponent implements OnInit
             switch(this.syncData.player.getPlayerState())
             {
                 case -1:
-                    this.syncData.player.playVideo();
                     break;
                 case 1:
                     this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
@@ -180,8 +179,9 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            this.videoId = this.getVideoId(videoInfo.url);
+            //this.syncData.player.loadVideoById({videoId: this.getVideoId(videoInfo.url)});
             this.syncData.player.seekTo(videoInfo.time, true);
+            this.videoId = this.getVideoId(videoInfo.url);
         });
     }
 
