@@ -50,7 +50,10 @@
             </div>
         </div>
         <div class="col-lg-12">
-            HISTORY
+            <div *ngFor="let video of videoHistoryList">
+                {{video.videoId}}
+                <button (click)="playNewVideoById(video.videoId)">Play</button>
+            </div>
         </div>
     </div>
 </div>

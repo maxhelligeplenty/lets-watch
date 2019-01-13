@@ -13,6 +13,7 @@ import { UserInterface } from '../../interface/user.interface';
 import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
 import * as rug from 'random-username-generator';
+import { PlaylistInterface } from '../../interface/playlist.interface';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -27,7 +28,7 @@ export class VideoRoomComponent implements OnInit
 
     public newVideoUrl:string;
     public syncData:SyncVideoInterface;
-    public videoHistoryList:Array<string> = [];
+    public videoHistoryList:Array<PlaylistInterface> = [];
     public messages:Array<Message> = [];
     public newMessage:string;
 
@@ -44,13 +45,14 @@ export class VideoRoomComponent implements OnInit
 
     public ngOnInit():void
     {
+
     }
 
     public addNewVideoUrl(url:string):void
     {
         if(!isNullOrUndefined(url))
         {
-            this.syncData.socket.emit(Event.NEW_VIDEO, url);
+            this.syncData.socket.emit(Event.NEW_VIDEO, this.getVideoId(url));
             this.newVideoUrl = undefined;
         }
     }
@@ -67,7 +69,6 @@ export class VideoRoomComponent implements OnInit
         {
             let idRegex:RegExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
             let videoId:string = url.split(idRegex)[1];
-            this.videoHistoryList.push(videoId);
             return videoId;
         }
     }
@@ -122,6 +123,11 @@ export class VideoRoomComponent implements OnInit
         }
     }
 
+    protected playNewVideoById(id:string)
+    {
+        this.syncData.socket.emit(Event.PLAY_NEW_VIDEO, id);
+    }
+
     private initIoConnection():void
     {
         this.socket = socketIo(SERVER_URL);
@@ -144,6 +150,13 @@ export class VideoRoomComponent implements OnInit
             this.messages.push(message);
         });
 
+        this.socket.on(Event.PLAY_NEW_VIDEO, (id:string) =>
+        {
+            this.syncData.player.loadVideoById({
+                videoId: id,
+            });
+        });
+
         this.socket.on(Event.PLAY, () =>
         {
             this.syncData.player.playVideo();
@@ -159,10 +172,10 @@ export class VideoRoomComponent implements OnInit
             this.syncVideoTime(time);
         });
 
-        this.socket.on(Event.NEW_VIDEO, (url:string) =>
+        this.socket.on(Event.NEW_VIDEO, (videoId:string) =>
         {
-            this.syncData.player.loadVideoById({
-                videoId: this.getVideoId(url)
+            this.videoHistoryList.push({
+                videoId: videoId
             });
         });
 
@@ -179,8 +192,11 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            this.syncData.player.loadVideoById({videoId: this.getVideoId(videoInfo.url)});
-            this.syncData.player.seekTo(videoInfo.time, true);
+            // TODO add buffer time (IDK how!!)
+            this.syncData.player.loadVideoById({
+                videoId:      this.getVideoId(videoInfo.url),
+                startSeconds: videoInfo.time
+            });
         });
     }
 
