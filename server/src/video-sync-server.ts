@@ -92,9 +92,10 @@ export class VideoSyncServer
             {
                 this.io.to(room).emit(Event.NEW_VIDEO, i);
             });
+            // TODO emit to HOST user so just one client send info
             socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
             {
-                socket.to(room).emit(Event.ASK_VIDEO_INFORMATION, socketId);
+                this.io.to(room).emit(Event.ASK_VIDEO_INFORMATION, socketId);
             });
             socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface, socketId:string) =>
             {

@@ -134,6 +134,8 @@ export class VideoRoomComponent implements OnInit
                 id:   this.syncData.clientId,
                 name: rug.generate()
             };
+
+            // TODO emit whole user to give first client HOST status. So new client gets data from HOST and not from all clients when ask
             this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
             this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION, this.socket.id);
         });
@@ -167,6 +169,7 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
         {
+            // TODO TEST if send player and sync with ViewChild on Player makes same / better function as / than current
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
@@ -176,20 +179,14 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            this.isReady = false;
-            this.syncData.player.loadVideoById({
-                videoId:      this.getVideoId(videoInfo.url),
-                startSeconds: videoInfo.time
-            });
-            setTimeout(() => {
-                this.isReady = true;
-            }, 500);
+            this.videoId = this.getVideoId(videoInfo.url);
+            this.syncData.player.seekTo(videoInfo.time, true);
         });
     }
 
     private syncVideoTime(time:number):void
     {
-        if(this.syncData.player.getCurrentTime() < time - 0.175 || this.syncData.player.getCurrentTime() > time + 0.175)
+        if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
         {
             this.syncData.player.seekTo(time, true);
         }

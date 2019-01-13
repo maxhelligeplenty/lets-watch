@@ -60,8 +60,9 @@ var VideoSyncServer = /** @class */ (function () {
             socket.on(event_interface_1.Event.NEW_VIDEO, function (i) {
                 _this.io.to(room).emit(event_interface_1.Event.NEW_VIDEO, i);
             });
+            // TODO emit to HOST user so just one client send info
             socket.on(event_interface_1.Event.ASK_VIDEO_INFORMATION, function (socketId) {
-                socket.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION, socketId);
+                _this.io.to(room).emit(event_interface_1.Event.ASK_VIDEO_INFORMATION, socketId);
             });
             socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v, socketId) {
                 socket.broadcast.to(socketId).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
