@@ -14,6 +14,7 @@ import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
 import * as rug from 'random-username-generator';
 import { PlaylistInterface } from '../../interface/playlist.interface';
+import { YoutubeVideoDataService } from '../../service/youtube-video-data.service';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -38,7 +39,7 @@ export class VideoRoomComponent implements OnInit
     private user:UserInterface;
     private socket;
 
-    constructor()
+    constructor(private youtubeVideoDataService:YoutubeVideoDataService)
     {
 
     }
@@ -52,7 +53,18 @@ export class VideoRoomComponent implements OnInit
     {
         if(!isNullOrUndefined(url))
         {
-            this.syncData.socket.emit(Event.NEW_VIDEO, this.getVideoId(url));
+            let videoId:string = this.getVideoId(url);
+            this.youtubeVideoDataService.getVideoInfoById(videoId).subscribe((res:any) =>
+            {
+                let videoData:PlaylistInterface = {
+                    videoId:   videoId,
+                    videoData: {
+                        thumbnail: res.items[0].snippet.thumbnails.default.url,
+                        title:     res.items[0].snippet.localized.title
+                    }
+                };
+                this.syncData.socket.emit(Event.NEW_VIDEO, videoData);
+            });
             this.newVideoUrl = undefined;
         }
     }
@@ -172,11 +184,9 @@ export class VideoRoomComponent implements OnInit
             this.syncVideoTime(time);
         });
 
-        this.socket.on(Event.NEW_VIDEO, (videoId:string) =>
+        this.socket.on(Event.NEW_VIDEO, (videoData:PlaylistInterface) =>
         {
-            this.videoHistoryList.push({
-                videoId: videoId
-            });
+            this.videoHistoryList.push(videoData);
         });
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>

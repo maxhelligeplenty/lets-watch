@@ -1,6 +1,6 @@
 import { YoutubeDataInterface } from './youtube-data.interface';
 
-export interface PlaylistInterface
+export interface VideoInfoInterface
 {
     videoId:string;
     videoData:YoutubeDataInterface;

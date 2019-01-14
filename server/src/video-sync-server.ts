@@ -88,7 +88,7 @@ export class VideoSyncServer
             {
                 socket.to(room).emit(Event.SYNC_TIME, t);
             });
-            socket.on(Event.NEW_VIDEO, (i:string) =>
+            socket.on(Event.NEW_VIDEO, (i:VideoInfoInterface) =>
             {
                 this.io.to(room).emit(Event.NEW_VIDEO, i);
             });

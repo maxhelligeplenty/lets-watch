@@ -13,6 +13,8 @@ import { DatenschutzComponent } from './components/datenschutz/datenschutz.compo
 import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieLawModule } from 'angular2-cookie-law';
+import { HttpClientModule } from '@angular/common/http';
+import { YoutubeVideoDataService } from './service/youtube-video-data.service';
 
 @NgModule({
     declarations: [
@@ -27,6 +29,7 @@ import { CookieLawModule } from 'angular2-cookie-law';
     imports:      [
         BrowserModule,
         BrowserAnimationsModule,
+        HttpClientModule,
         CookieLawModule,
         FormsModule,
         YoutubePlayerModule,
@@ -34,7 +37,7 @@ import { CookieLawModule } from 'angular2-cookie-law';
             routes
         ),
     ],
-    providers:    [],
+    providers:    [YoutubeVideoDataService],
     bootstrap:    [AppComponent]
 })
 export class AppModule
