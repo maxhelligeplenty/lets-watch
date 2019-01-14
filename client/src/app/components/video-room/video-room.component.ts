@@ -185,7 +185,7 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.NEW_VIDEO, (videoData:PlaylistInterface) =>
         {
-            this.videoHistoryList.push(videoData);
+            this.videoHistoryList.unshift(videoData);
         });
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>

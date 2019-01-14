@@ -54,12 +54,19 @@ input
     flex-grow: 1;
 }
 
-.playlist-item
+.playlist
 {
-    span
+    .playlist-item
     {
-        font-family: fontawesome;
-        color: white;
+        display: inline-flex;
+        max-width: 150px;
+        margin-right: 15px;
+        background-color: black;
+        span
+        {
+            font-family: fontawesome;
+            color: white;
+        }
     }
 }
 
