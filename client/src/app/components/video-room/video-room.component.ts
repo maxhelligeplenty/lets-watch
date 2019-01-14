@@ -9,12 +9,11 @@ import { Event } from '../../interface/event.interface';
 import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
 import { UserInterface } from '../../interface/user.interface';
-
+import { PlaylistInterface } from '../../interface/playlist.interface';
+import { YoutubeVideoDataService } from '../../service/youtube-video-data.service';
 import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
 import * as rug from 'random-username-generator';
-import { PlaylistInterface } from '../../interface/playlist.interface';
-import { YoutubeVideoDataService } from '../../service/youtube-video-data.service';
 
 const SERVER_URL = 'http://localhost:8080';
 
