@@ -1,3 +1,4 @@
+import { FooterComponent } from './components/footer/footer.component';
 import { ReportBetaComponent } from './components/report-beta/report-beta.component';
 import { BetaReportViewComponent } from './views/beta-report-view/beta-report-view.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,7 +29,8 @@ import { YoutubeVideoDataService } from './service/youtube-video-data.service';
         DatenschutzViewComponent,
         DatenschutzComponent,
         BetaReportViewComponent,
-        ReportBetaComponent
+        ReportBetaComponent,
+        FooterComponent
     ],
     imports:      [
         BrowserModule,

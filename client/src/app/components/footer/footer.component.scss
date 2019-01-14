@@ -1,0 +1,49 @@
+@media (max-width: 575.98px)
+{
+    .legal{
+        display: flex;
+        justify-content: center;
+    }
+    .bug-report
+    {
+        display: flex;
+        justify-content: center;
+    }
+}
+.legal
+{
+    span
+    {
+        padding: 10px;
+        font-size: 1.3rem;
+        float: right;
+    }
+}
+.container-fluid
+{
+    background-color: #191919;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.bug-report
+{
+    float: left;
+    font-size: 1.3rem;
+    font-family: fontawesome;
+    padding: 10px;
+}
+.footer
+{   
+    .credits
+    {
+        font-size: 1.3rem;
+        padding: 10px;
+        .fa-heart
+        {
+            font-family: fontawesome;
+            color: deeppink;
+        }
+    }
+}

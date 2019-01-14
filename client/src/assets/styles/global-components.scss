@@ -6,3 +6,13 @@ button
     font-size: 1rem;
     outline: none;
 }
+.c-link
+{
+    color: white !important;
+    &:hover
+    {
+        cursor: pointer;
+        color:white !important;
+        text-decoration: underline !important;
+    }
+}
