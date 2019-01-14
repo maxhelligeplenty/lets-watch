@@ -50,9 +50,11 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div *ngFor="let video of videoHistoryList">
+            <div *ngFor="let video of videoHistoryList" class="playlist-item">
                 <img [src]="video.videoData.thumbnail">
-                <button (click)="playNewVideoById(video.videoId)">Play</button>
+                <button (click)="playNewVideoById(video.videoId)">
+                    <span class="fas fa-play"></span>
+                </button>
             </div>
         </div>
     </div>

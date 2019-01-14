@@ -3,6 +3,7 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
 .invite-button
 {
     background-color: transparent;
@@ -15,12 +16,14 @@
         font-family: fontawesome;
     }
 }
+
 .chat-output
 {
     overflow: scroll;
     height: 50vh;
     background-color: black;
 }
+
 .send-message-container
 {
     display: flex;
@@ -40,15 +43,25 @@
         font-size: 1.3rem;
     }
 }
+
 input
+{
+    outline: none;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border: none;
+    flex-grow: 1;
+}
+
+.playlist-item
+{
+    span
     {
-        outline: none;
-        padding: 10px;
+        font-family: fontawesome;
         color: white;
-        background-color: black;
-        border:none;
-        flex-grow: 1;
     }
+}
 
 .add-video-url-container
 {
