@@ -1,0 +1,41 @@
+.header
+{
+}
+hr
+{
+    background-color: white;
+}
+label
+{
+    display: flex;
+}
+.submit-button-container
+{
+    button
+    {
+       span
+       {
+           font-family: fontawesome;
+       } 
+    }
+}
+input[type="text"],input[type="email"],textarea
+{
+    width: 100%;
+    outline: none;
+    padding: 10px;
+    border: none;
+    border-radius: 2px;
+}
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }

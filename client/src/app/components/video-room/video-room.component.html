@@ -49,10 +49,12 @@
                 </button>
             </div>
         </div>
-        <div class="col-lg-12 playlist">
+        <div class="col-lg-9 playlist">
             <h3>PLAYLIST</h3>
-            <div *ngFor="let video of videoHistoryList" class="playlist-item" (click)="playNewVideoById(video.videoId)">
-                <img [src]="video.videoData.thumbnail">
+            <div class="playlist-container">
+                <div *ngFor="let video of videoHistoryList" class="playlist-item" (click)="playNewVideoById(video.videoId)">
+                    <img [src]="video.videoData.thumbnail">
+                </div>
             </div>
         </div>
     </div>

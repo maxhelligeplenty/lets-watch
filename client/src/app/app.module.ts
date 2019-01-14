@@ -1,3 +1,5 @@
+import { ReportBetaComponent } from './components/report-beta/report-beta.component';
+import { BetaReportViewComponent } from './views/beta-report-view/beta-report-view.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -24,7 +26,9 @@ import { YoutubeVideoDataService } from './service/youtube-video-data.service';
         VideoRoomComponent,
         StartPageComponent,
         DatenschutzViewComponent,
-        DatenschutzComponent
+        DatenschutzComponent,
+        BetaReportViewComponent,
+        ReportBetaComponent
     ],
     imports:      [
         BrowserModule,
