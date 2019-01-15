@@ -37,6 +37,11 @@
     font-size: 1.3rem;
     font-family: fontawesome;
     padding: 10px;
+    &:hover
+    {
+        color: rgb(211, 66, 66);
+        cursor: pointer;
+    }
 }
 .footer
 {   
