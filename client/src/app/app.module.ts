@@ -18,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { YoutubeVideoDataService } from './service/youtube-video-data.service';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { PrivacyViewComponent } from './views/privacy-view/privacy-view.component';
+import { ImpressumComponent } from './components/impressum/impressum.component';
+import { ImpressumViewComponent } from './views/impressum-view/impressum-view.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,9 @@ import { PrivacyViewComponent } from './views/privacy-view/privacy-view.componen
         PrivacyComponent,
         BetaReportViewComponent,
         ReportBetaComponent,
-        FooterComponent
+        FooterComponent,
+        ImpressumComponent,
+        ImpressumViewComponent
     ],
     imports:      [
         BrowserModule,

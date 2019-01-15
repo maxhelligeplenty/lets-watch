@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { StartPageViewComponent } from './views/start-page-view/start-page-view.component';
 import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.component';
 import { PrivacyViewComponent } from './views/privacy-view/privacy-view.component';
+import { ImpressumViewComponent } from './views/impressum-view/impressum-view.component';
 
 export const routes:Routes = [
     {
@@ -21,6 +22,10 @@ export const routes:Routes = [
     {
         path:      'datenschutz',
         component: PrivacyViewComponent
+    },
+    {
+        path:      'impressum',
+        component: ImpressumViewComponent
     },
     {
         path:      'beta',

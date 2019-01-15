@@ -30,9 +30,14 @@ export class FooterComponent
         this.router.navigate(['/beta']);
     }
 
-    public navigateToDatenschutz():void
+    public navigateToPrivacy():void
     {
         this.router.navigate(['/datenschutz']);
+    }
+
+    public navigateToImpressum():void
+    {
+        this.router.navigate(['/impressum']);
     }
     
 }
