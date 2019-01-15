@@ -9,6 +9,10 @@
         display: flex;
         justify-content: center;
     }
+    .container-fluid
+    {
+        position: static !important;
+    }
 }
 .legal
 {

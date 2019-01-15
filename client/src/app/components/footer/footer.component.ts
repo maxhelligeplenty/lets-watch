@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, HostBinding } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
+
 @Component
 ({
     selector:    'footer',
     templateUrl: './footer.component.html',
-    styleUrls:   ['./footer.component.scss']
+    styleUrls:   ['./footer.component.scss'],
+    animations: [
+        
+    ]
 })
 
 export class FooterComponent
