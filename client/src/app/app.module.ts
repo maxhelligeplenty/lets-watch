@@ -12,12 +12,12 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routing';
 import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.component';
 import { StartPageViewComponent } from './views/start-page-view/start-page-view.component';
-import { DatenschutzComponent } from './components/datenschutz/datenschutz.component';
-import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieLawModule } from 'angular2-cookie-law';
 import { HttpClientModule } from '@angular/common/http';
 import { YoutubeVideoDataService } from './service/youtube-video-data.service';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { PrivacyViewComponent } from './views/privacy-view/privacy-view.component';
 
 @NgModule({
     declarations: [
@@ -26,8 +26,8 @@ import { YoutubeVideoDataService } from './service/youtube-video-data.service';
         StartPageViewComponent,
         VideoRoomComponent,
         StartPageComponent,
-        DatenschutzViewComponent,
-        DatenschutzComponent,
+        PrivacyViewComponent,
+        PrivacyComponent,
         BetaReportViewComponent,
         ReportBetaComponent,
         FooterComponent

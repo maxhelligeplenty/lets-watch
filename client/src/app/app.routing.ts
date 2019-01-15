@@ -2,7 +2,7 @@ import { BetaReportViewComponent } from './views/beta-report-view/beta-report-vi
 import { Routes } from '@angular/router';
 import { StartPageViewComponent } from './views/start-page-view/start-page-view.component';
 import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.component';
-import { DatenschutzViewComponent } from './views/datenschutz-view/datenschutz-view.component';
+import { PrivacyViewComponent } from './views/privacy-view/privacy-view.component';
 
 export const routes:Routes = [
     {
@@ -19,11 +19,11 @@ export const routes:Routes = [
         component: VideoRoomViewComponent,
     },
     {
-        path: 'datenschutz',
-        component: DatenschutzViewComponent
+        path:      'datenschutz',
+        component: PrivacyViewComponent
     },
     {
-        path: 'beta',
+        path:      'beta',
         component: BetaReportViewComponent
     }
 ];
