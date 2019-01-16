@@ -27,7 +27,7 @@ var VideoSyncServer = /** @class */ (function () {
     VideoSyncServer.prototype.listen = function () {
         var _this = this;
         this.server.listen(this.port, function () {
-            console.log('Running server on port %s', _this.port);
+            console.log('Running video server on port %s', _this.port);
         });
         this.io.on(event_interface_1.Event.CONNECT, function (socket) {
             var room = '';

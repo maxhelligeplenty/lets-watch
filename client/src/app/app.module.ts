@@ -28,8 +28,8 @@ import { YoutubeVideoDataService } from './service/youtube-video-data.service';
         StartPageComponent,
         DatenschutzViewComponent,
         DatenschutzComponent,
-        BetaReportViewComponent,
         ReportBetaComponent,
+        BetaReportViewComponent,
         FooterComponent
     ],
     imports:      [

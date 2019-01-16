@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import * as socketIo from 'socket.io-client';
+import { Event } from './../../interface/event.interface';
+import { Component, OnInit } from '@angular/core';
 @Component
 ({
     selector:    'report-beta',
@@ -7,7 +8,17 @@ import { Component } from '@angular/core';
     styleUrls:   ['./report-beta.component.scss']
 })
 
-export class ReportBetaComponent
+export class ReportBetaComponent implements OnInit
 {
+    private socket;
 
+    protected sendMailToServer()
+    {
+        this.socket.emit(Event.SEND_MAIL);
+    }
+
+    public ngOnInit():void
+    {
+        this.socket = socketIo('localhost:1337');
+    }
 }

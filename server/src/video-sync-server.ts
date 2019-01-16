@@ -45,12 +45,12 @@ export class VideoSyncServer
     {
         this.io = socketIo(this.server);
     }
-
+    
     private listen():void
     {
         this.server.listen(this.port, () =>
         {
-            console.log('Running server on port %s', this.port);
+            console.log('Running video server on port %s', this.port);
         });
 
         this.io.on(Event.CONNECT, (socket:Socket) =>

@@ -21,8 +21,7 @@ export class StartPageComponent implements OnInit
 
     public joinRoom():void
     {
-        this.router.navigate(['/room',
-                              this.getRandomRoomId()]);
+        this.router.navigate(['/room',this.getRandomRoomId()]);
     }
 
     private getRandomRoomId():string

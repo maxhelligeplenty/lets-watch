@@ -11,5 +11,6 @@ export enum Event
     PAUSE = 'pause',
     JOIN = 'join',
     SEND_MESSAGE = 'send-message',
-    PLAY_NEW_VIDEO = 'play-new-video'
+    PLAY_NEW_VIDEO = 'play-new-video',
+    SEND_MAIL = 'send-mail'
 }

@@ -14,4 +14,5 @@ var Event;
     Event["JOIN"] = "join";
     Event["SEND_MESSAGE"] = "send-message";
     Event["PLAY_NEW_VIDEO"] = "play-new-video";
+    Event["SEND_MAIL"] = "send-mail";
 })(Event = exports.Event || (exports.Event = {}));
