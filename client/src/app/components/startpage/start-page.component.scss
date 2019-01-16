@@ -36,6 +36,35 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+.description-container
+{
+    position: absolute;
+    top: 60%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    h2
+    {
+        font-size: 4rem;
+        font-weight: bold;
+    }
+}
+@media (max-width: 575.98px)
+{
+    .join-button
+    {
+       top:40% !important;
+    }
+    .description-container
+    {
+        top: 50% !important;
+        h2
+        {
+            font-size: 3rem !important;
+        }
+    }
+}
 .main-container
 {
     height: 100vh;
