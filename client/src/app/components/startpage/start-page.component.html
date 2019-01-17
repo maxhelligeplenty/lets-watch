@@ -1,19 +1,72 @@
-<div class="container-fluid start-page">
-    <div class="brand">
-        <h1>
-            <span class="brand-icon fas fa-play-circle"></span>
-            Sync Watch
-        </h1>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 main-container d-flex justify-content-center">
-            <div class="join-button"
-                 (click)="joinRoom()">
-                Create a new Room
+<div class="start-page">
+    <div class="container-fluid landing-page">
+        <div class="brand">
+            <h1>
+                <span class="brand-icon fas fa-play-circle"></span>
+                Sync Watch
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 main-container d-flex justify-content-center">
+                <div class="join-button"
+                        (click)="joinRoom()">
+                    Create a new Room
+                </div>
             </div>
         </div>
+        <div class="description-container">
+            <h2>Ever wanted to watch YouTube together ?</h2>
+        </div>
     </div>
-    <div class="description-container">
-        <h2>Ever wanted to watch YouTube together ?</h2>
+    <div class="container-fluid features">
+        <div class="row">
+            <div class="col-md-12 p-2">
+                <h3>Features</h3>
+            </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-md-3 p-5">
+                <div class="c-card mb-2">
+                    <div class="header">
+                        <span class="icon fab fa-youtube"></span>
+                    </div>
+                    <div class="body p-3">
+                        <p>Steam Youtube videos synchron with your friends</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 p-5">
+                <div class="c-card mb-2">
+                    <div class="header">
+                        <span class="icon far fa-comments"></span>
+                    </div>
+                    <div class="body p-3">
+                        <p>Chat feature</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 p-5">
+                <div class="c-card mb-2">
+                    <div class="header">
+                        <span class="icon fas fa-rocket"></span>
+                    </div>
+                    <div class="body p-3">
+                        <p>Best web performance build with Angular</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 p-5">
+                    <div class="c-card mb-2">
+                        <div class="header">
+                            <span class="icon fas fa-mobile"></span>
+                        </div>
+                        <div class="body p-3">
+                            <p>Build mobile first,
+                               responsive design.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
 </div>

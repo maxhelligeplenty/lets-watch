@@ -19,7 +19,6 @@
     position: absolute;
     left: 0;
     width: 100%;
-    opacity: 0.9;
     top: 10px;
     background-color:rgb(53, 53, 53);
     text-align: center;
@@ -29,12 +28,17 @@
         margin-right: 10px;
     }
 }
+.landing-page
+{
+    position: relative;
+}
 .start-page
 {
     background-image: url('../../../assets/images/mountains-1412683.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 .description-container
 {
@@ -67,4 +71,44 @@
 .main-container
 {
     height: 100vh;
+}
+.features
+{
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    /* RGBa with 0.6 opacity */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    h3
+    {
+        color: white;
+        font-size: 3rem;
+        font-weight: bolder;
+    }
+}
+.c-card
+{
+    padding: 10px;
+    height: 40vh;
+    border-radius: 2px;
+    background-color: #191919;
+    .header
+    {
+        text-align: center;
+        background-color: transparent;
+        margin: -10px;
+        .icon
+        {
+            font-family: fontawesome;
+            font-size: 5rem;
+        }
+    }
+    .body
+    {
+        text-align: center;
+        font-size: 1.5rem;
+    }
 }
