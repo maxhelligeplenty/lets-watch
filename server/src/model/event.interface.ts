@@ -12,5 +12,7 @@ export enum Event
     JOIN = 'join',
     SEND_MESSAGE = 'send-message',
     PLAY_NEW_VIDEO = 'play-new-video',
-    SEND_MAIL = 'send-mail'
+    SEND_MAIL = 'send-mail',
+    SYNC_CURRENT_ROOM_MEMBER = 'sync-current-room-member',
+    ALERT_MEMBERS_NEW_USER = 'alert_members_new_user'
 }

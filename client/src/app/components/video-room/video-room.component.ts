@@ -31,6 +31,7 @@ export class VideoRoomComponent implements OnInit
     public videoHistoryList:Array<PlaylistInterface> = [];
     public messages:Array<Message> = [];
     public newMessage:string;
+    public currentRoomMember:Array<UserInterface> = [];
 
     protected videoId:string = 'xfr-OiX-46w';
 
@@ -153,6 +154,7 @@ export class VideoRoomComponent implements OnInit
 
             // TODO emit whole user to give first client HOST status. So new client gets data from HOST and not from all clients when ask
             this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
+            this.syncData.socket.emit(Event.ALERT_MEMBERS_NEW_USER, this.user);
             this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION, this.socket.id);
         });
 
@@ -207,6 +209,24 @@ export class VideoRoomComponent implements OnInit
                 startSeconds: videoInfo.time
             });
         });
+
+        this.socket.on(Event.ALERT_MEMBERS_NEW_USER, (user:UserInterface) =>
+        {
+            console.log('test');
+            this.currentRoomMember.push(user);
+            this.syncData.socket.emit(Event.SYNC_CURRENT_ROOM_MEMBER, this.user, user.id);
+        });
+
+        this.socket.on(Event.SYNC_CURRENT_ROOM_MEMBER, (user:UserInterface) =>
+        {
+            console.log('test1');
+            this.currentRoomMember.push(user);
+        });
+        //this.socket.on(Event.SYNC_HOST);
+        //
+        //this.socket.on(Event.ASK_FOR_SYNC_TIME, ());
+        //this.socket.on(Event.SYNC_TIME_BY_HOST, ())
+
     }
 
     private syncVideoTime(time:number):void

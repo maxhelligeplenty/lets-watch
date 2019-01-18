@@ -8,6 +8,7 @@ import { Socket } from 'socket.io';
 import { Message } from './model';
 import { Event } from './model/event.interface';
 import { VideoInfoInterface } from './model/video-info.interface';
+import { UserInterface } from '../../client/src/app/interface/user.interface';
 
 export class VideoSyncServer
 {
@@ -45,7 +46,7 @@ export class VideoSyncServer
     {
         this.io = socketIo(this.server);
     }
-    
+
     private listen():void
     {
         this.server.listen(this.port, () =>
@@ -104,6 +105,14 @@ export class VideoSyncServer
             socket.on(Event.SYNC_VIDEO_INFORMATION, (v:VideoInfoInterface, socketId:string) =>
             {
                 socket.broadcast.to(socketId).emit(Event.SYNC_VIDEO_INFORMATION, v);
+            });
+            socket.on(Event.ALERT_MEMBERS_NEW_USER, (u:UserInterface) =>
+            {
+                this.io.to(room).emit(Event.ALERT_MEMBERS_NEW_USER, u);
+            });
+            socket.on(Event.SYNC_CURRENT_ROOM_MEMBER, (u:UserInterface, socketId:string) =>
+            {
+                socket.broadcast.to(socketId).emit(Event.SYNC_CURRENT_ROOM_MEMBER, u);
             });
         });
     }

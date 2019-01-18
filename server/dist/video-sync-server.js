@@ -70,6 +70,12 @@ var VideoSyncServer = /** @class */ (function () {
             socket.on(event_interface_1.Event.SYNC_VIDEO_INFORMATION, function (v, socketId) {
                 socket.broadcast.to(socketId).emit(event_interface_1.Event.SYNC_VIDEO_INFORMATION, v);
             });
+            socket.on(event_interface_1.Event.ALERT_MEMBERS_NEW_USER, function (u) {
+                _this.io.to(room).emit(event_interface_1.Event.ALERT_MEMBERS_NEW_USER, u);
+            });
+            socket.on(event_interface_1.Event.SYNC_CURRENT_ROOM_MEMBER, function (u, socketId) {
+                socket.broadcast.to(socketId).emit(event_interface_1.Event.SYNC_CURRENT_ROOM_MEMBER, u);
+            });
         });
     };
     VideoSyncServer.prototype.getApp = function () {

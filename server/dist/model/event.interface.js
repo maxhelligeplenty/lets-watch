@@ -15,4 +15,6 @@ var Event;
     Event["SEND_MESSAGE"] = "send-message";
     Event["PLAY_NEW_VIDEO"] = "play-new-video";
     Event["SEND_MAIL"] = "send-mail";
+    Event["SYNC_CURRENT_ROOM_MEMBER"] = "sync-current-room-member";
+    Event["ALERT_MEMBERS_NEW_USER"] = "alert_members_new_user";
 })(Event = exports.Event || (exports.Event = {}));
