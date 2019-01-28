@@ -265,6 +265,7 @@ export class VideoRoomComponent implements OnInit
                     if(this.user.status === UserEnum.JOINING)
                     {
                         this.syncData.socket.emit(Event.ASK_VIDEO_TIME, this.user.id);
+                        this.syncData.socket.emit(Event.PLAY);
                         this.user.status = UserEnum.JOINED;
                     }
                     else
