@@ -8,7 +8,10 @@ import { Message } from '../../interface/message.interface';
 import { Event } from '../../interface/event.interface';
 import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
-import { UserInterface } from '../../interface/user.interface';
+import {
+    UserEnum,
+    UserInterface
+} from '../../interface/user.interface';
 import { PlaylistInterface } from '../../interface/playlist.interface';
 import { YoutubeVideoDataService } from '../../service/youtube-video-data.service';
 import * as socketIo from 'socket.io-client';
@@ -31,6 +34,7 @@ export class VideoRoomComponent implements OnInit
     public videoHistoryList:Array<PlaylistInterface> = [];
     public messages:Array<Message> = [];
     public newMessage:string;
+    public currentRoomMember:Array<UserInterface> = [];
 
     protected videoId:string = 'xfr-OiX-46w';
 
@@ -70,7 +74,6 @@ export class VideoRoomComponent implements OnInit
 
     public copyInviteLinkToClipboard():void
     {
-        // TODO Replace with active Route
         copy(document.location.href);
     }
 
@@ -99,26 +102,7 @@ export class VideoRoomComponent implements OnInit
 
     protected onStateChange():void
     {
-        if(this.isReady)
-        {
-            switch(this.syncData.player.getPlayerState())
-            {
-                case -1:
-                    break;
-                case 1:
-                    this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                    this.syncData.socket.emit(Event.PLAY);
-                    break;
-                case 2:
-                    this.syncData.socket.emit(Event.PAUSE);
-                    break;
-                case 3:
-                    this.syncData.player.playVideo();
-                    break;
-                default:
-                    break;
-            }
-        }
+        this.changeState(this.syncData.player.getPlayerState());
     }
 
     protected sendMessage(text:string):void
@@ -147,12 +131,14 @@ export class VideoRoomComponent implements OnInit
         {
             this.syncData.clientId = this.socket.id;
             this.user = {
-                id:   this.syncData.clientId,
-                name: rug.generate()
+                id:     this.syncData.clientId,
+                name:   rug.generate(),
+                role:   'member',
+                status: UserEnum.JOINING
             };
 
-            // TODO emit whole user to give first client HOST status. So new client gets data from HOST and not from all clients when ask
             this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
+            this.syncData.socket.emit(Event.ALERT_MEMBERS_NEW_USER, this.user);
             this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION, this.socket.id);
         });
 
@@ -165,6 +151,7 @@ export class VideoRoomComponent implements OnInit
         {
             this.syncData.player.loadVideoById({
                 videoId: id,
+                startSeconds: 0
             });
         });
 
@@ -190,8 +177,6 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
         {
-            // TODO TEST if send player and sync with ViewChild on Player makes same / better function as / than current
-            // TODO so we can build on VC
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
@@ -201,12 +186,64 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            // TODO add buffer time (IDK how!!)
             this.syncData.player.loadVideoById({
                 videoId:      this.getVideoId(videoInfo.url),
                 startSeconds: videoInfo.time
             });
         });
+
+        this.socket.on(Event.ALERT_MEMBERS_NEW_USER, (user:UserInterface) =>
+        {
+            this.currentRoomMember.push(user);
+            this.syncData.socket.emit(Event.SYNC_CURRENT_ROOM_MEMBER, this.user, user.id);
+        });
+
+        this.socket.on(Event.SYNC_CURRENT_ROOM_MEMBER, (user:UserInterface) =>
+        {
+            this.currentRoomMember.push(user);
+        });
+
+        this.socket.on(Event.ASK_VIDEO_TIME, (socketId:string) =>
+        {
+            this.syncData.socket.emit(Event.SYNC_TIME_ON_JOIN, socketId, this.syncData.player.getCurrentTime());
+        });
+
+        this.socket.on(Event.SYNC_TIME_ON_JOIN, (time:number) =>
+        {
+            this.syncVideoTime(time);
+        });
+
+        this.socket.on(Event.ASK_STATUS, (socketId:string) =>
+        {
+            this.syncData.socket.emit(Event.SYNC_TIME_ON_JOIN, socketId, this.syncData.player.getPlayerState());
+        });
+
+        this.socket.on(Event.SYNC_STATUS, (status:number) =>
+        {
+            this.changeState(status);
+        });
+
+        //this.socket.on(Event.GET_USER_ROLE, (userList:Array<UserInterface>) =>
+        //{
+        //    // TODO Replace with enum
+        //    console.log(userList);
+        //    let checkIfHostExists:UserInterface = userList.find((user:UserInterface) =>
+        //    {
+        //        return user.role === 'host'
+        //    });
+        //    console.log(checkIfHostExists);
+        //
+        //    if(isNullOrUndefined(checkIfHostExists))
+        //    {
+        //        this.user.role = 'host';
+        //    }
+        //    console.log(this.user);
+        //});
+        //this.socket.on(Event.SYNC_HOST);
+        //
+        //this.socket.on(Event.ASK_FOR_SYNC_TIME, ());
+        //this.socket.on(Event.SYNC_TIME_BY_HOST, ())
+
     }
 
     private syncVideoTime(time:number):void
@@ -214,6 +251,39 @@ export class VideoRoomComponent implements OnInit
         if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
         {
             this.syncData.player.seekTo(time, true);
+        }
+    }
+
+    private changeState(state:number):void
+    {
+        if(this.isReady)
+        {
+            switch(state)
+            {
+                case -1:
+                    break;
+                case 1:
+                    if(this.user.status === UserEnum.JOINING)
+                    {
+                        this.syncData.socket.emit(Event.ASK_VIDEO_TIME, this.user.id);
+                        this.syncData.socket.emit(Event.PLAY);
+                        this.user.status = UserEnum.JOINED;
+                    }
+                    else
+                    {
+                        this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                        this.syncData.socket.emit(Event.PLAY);
+                    }
+                    break;
+                case 2:
+                    this.syncData.socket.emit(Event.PAUSE);
+                    break;
+                case 3:
+                    this.syncData.player.playVideo();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

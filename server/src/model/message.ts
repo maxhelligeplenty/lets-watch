@@ -1,8 +1,7 @@
-import { User } from './user';
+import { UserInterface } from './user.interface';
 
-export class Message
+export interface Message
 {
-    constructor(private from:User, private content:string)
-    {
-    }
+    from?:UserInterface;
+    content?:string;
 }

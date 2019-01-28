@@ -5,9 +5,3 @@ export interface UserInterface {
     role?:string;
     status?:string;
 }
-
-export enum UserEnum
-{
-    JOINED = 'JOINED',
-    JOINING = 'JOINING'
-}
