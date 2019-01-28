@@ -74,7 +74,6 @@ export class VideoRoomComponent implements OnInit
 
     public copyInviteLinkToClipboard():void
     {
-        // TODO Replace with active Route
         copy(document.location.href);
     }
 
@@ -165,7 +164,6 @@ export class VideoRoomComponent implements OnInit
                 status: UserEnum.JOINING
             };
 
-            // TODO emit whole user to give first client HOST status. So new client gets data from HOST and not from all clients when ask
             this.syncData.socket.emit(Event.JOIN, this.syncData.room, this.user.name);
             this.syncData.socket.emit(Event.ALERT_MEMBERS_NEW_USER, this.user);
             this.syncData.socket.emit(Event.ASK_VIDEO_INFORMATION, this.socket.id);
@@ -205,8 +203,6 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.ASK_VIDEO_INFORMATION, (socketId:string) =>
         {
-            // TODO TEST if send player and sync with ViewChild on Player makes same / better function as / than current
-            // TODO so we can build on VC
             let videoInfo:VideoInfoInterface = {
                 url:  this.syncData.player.getVideoUrl(),
                 time: this.syncData.player.getCurrentTime()
@@ -216,7 +212,6 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.SYNC_VIDEO_INFORMATION, (videoInfo:VideoInfoInterface) =>
         {
-            // TODO add buffer time (IDK how!!)
             this.syncData.player.loadVideoById({
                 videoId:      this.getVideoId(videoInfo.url),
                 startSeconds: videoInfo.time
