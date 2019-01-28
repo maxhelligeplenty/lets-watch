@@ -53,6 +53,70 @@
         font-weight: bold;
     }
 }
+.main-container
+{
+    height: 100vh;
+}
+.features
+{
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    /* RGBa with 0.6 opacity */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    .title
+    {
+        color: white;
+        font-size: 3rem;
+        font-weight: bolder;
+    }
+    .c-card
+    {
+        padding: 10px;
+        height: 40vh;
+        border-radius: 2px;
+        background-color: #191919;
+        .header
+        {
+            text-align: center;
+            background-color: transparent;
+            margin: -10px;
+            .icon
+            {
+                font-family: fontawesome;
+                font-size: 5rem;
+            }
+        }
+        .body
+        {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+    }
+}
+.support
+{
+    text-align: center;
+    .title
+    {
+        color: white;
+        font-size: 3rem;
+        font-weight: bolder;
+    }
+    .socials
+    {
+        font-family: fontawesome;
+        font-size: 3rem;
+    }
+    .donate
+    {
+        font-family: fontawesome;
+        font-size: 3rem;
+    }
+}
 @media (max-width: 575.98px)
 {
     .join-button
@@ -66,49 +130,5 @@
         {
             font-size: 3rem !important;
         }
-    }
-}
-.main-container
-{
-    height: 100vh;
-}
-.features
-{
-    text-align: center;
-    background-color: rgb(0, 0, 0);
-    /* RGBa with 0.6 opacity */
-    background-color: rgba(0, 0, 0, 0.6);
-    /* For IE 5.5 - 7*/
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-    /* For IE 8*/
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-    h3
-    {
-        color: white;
-        font-size: 3rem;
-        font-weight: bolder;
-    }
-}
-.c-card
-{
-    padding: 10px;
-    height: 40vh;
-    border-radius: 2px;
-    background-color: #191919;
-    .header
-    {
-        text-align: center;
-        background-color: transparent;
-        margin: -10px;
-        .icon
-        {
-            font-family: fontawesome;
-            font-size: 5rem;
-        }
-    }
-    .body
-    {
-        text-align: center;
-        font-size: 1.5rem;
     }
 }
