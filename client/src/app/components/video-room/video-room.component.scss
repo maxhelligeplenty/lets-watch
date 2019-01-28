@@ -16,6 +16,10 @@
         font-size: 1rem;
         font-family: fontawesome;
     }
+    &:hover
+    {
+        cursor: pointer;
+    }
 }
 
 .chat-output
