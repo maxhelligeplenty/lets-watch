@@ -63,7 +63,8 @@ export class VideoRoomComponent implements OnInit
                     videoId:   videoId,
                     videoData: {
                         thumbnail: res.items[0].snippet.thumbnails.default.url,
-                        title:     res.items[0].snippet.localized.title
+                        title:     res.items[0].snippet.localized.title.substring(0, 25) +
+                                   (res.items[0].snippet.localized.title.length > 24 ? '...' : '')
                     }
                 };
                 this.syncData.socket.emit(Event.NEW_VIDEO, videoData);
@@ -150,7 +151,7 @@ export class VideoRoomComponent implements OnInit
         this.socket.on(Event.PLAY_NEW_VIDEO, (id:string) =>
         {
             this.syncData.player.loadVideoById({
-                videoId: id,
+                videoId:      id,
                 startSeconds: 0
             });
         });

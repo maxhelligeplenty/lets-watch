@@ -18,11 +18,15 @@
     }
 }
 
-.chat-output
+.chat
 {
-    overflow: scroll;
-    height: 50vh;
-    background-color: black;
+    margin-bottom: 16px;
+    .chat-output
+    {
+        overflow: scroll;
+        height: 33vh;
+        background-color: black;
+    }
 }
 
 .send-message-container
@@ -57,12 +61,29 @@ input
 
 .playlist
 {
+    .playlist-container
+    {
+        width: 100%;
+        overflow: scroll;
+        height: 33vh;
+        background-color: black;
+    }
+    .video-description
+    {
+        width: 100%;
+        padding: 5px 0 0 5px;
+    }
+    .playlist-item:last-child
+    {
+        border-bottom: none;
+    }
     .playlist-item
     {
-        display: inline-flex;
-        max-width: 150px;
-        margin-right: 15px;
+        display: flex;
+        width: 100%;
         background-color: black;
+        padding: 10px 0;
+        border-bottom: 1px solid white;
         span
         {
             font-family: fontawesome;
