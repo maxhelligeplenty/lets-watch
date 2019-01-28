@@ -17,6 +17,7 @@ import { YoutubeVideoDataService } from '../../service/youtube-video-data.servic
 import * as socketIo from 'socket.io-client';
 import * as copy from 'copy-to-clipboard';
 import * as rug from 'random-username-generator';
+import { Router } from '@angular/router';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -42,7 +43,8 @@ export class VideoRoomComponent implements OnInit
     private user:UserInterface;
     private socket;
 
-    constructor(private youtubeVideoDataService:YoutubeVideoDataService)
+    constructor(private youtubeVideoDataService:YoutubeVideoDataService,
+                private router:Router)
     {
 
     }
@@ -78,14 +80,9 @@ export class VideoRoomComponent implements OnInit
         copy(document.location.href);
     }
 
-    private getVideoId(url):string
+    protected navigateToStartPage():void
     {
-        if(!isNullOrUndefined(url) && !isNullOrUndefined(this.syncData.player))
-        {
-            let idRegex:RegExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
-            let videoId:string = url.split(idRegex)[1];
-            return videoId;
-        }
+        this.router.navigate('start');
     }
 
     protected savePlayer(player:YT.Player):void
@@ -285,6 +282,16 @@ export class VideoRoomComponent implements OnInit
                 default:
                     break;
             }
+        }
+    }
+
+    private getVideoId(url):string
+    {
+        if(!isNullOrUndefined(url) && !isNullOrUndefined(this.syncData.player))
+        {
+            let idRegex:RegExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+            let videoId:string = url.split(idRegex)[1];
+            return videoId;
         }
     }
 }
