@@ -17,5 +17,7 @@ export enum Event
     ALERT_MEMBERS_NEW_USER = 'alert-members-new-user',
     GET_USER_ROLE = 'get-user-role',
     ASK_VIDEO_TIME = 'ask-video-time',
-    SYNC_TIME_ON_JOIN = 'sync-time-on-join'
+    SYNC_TIME_ON_JOIN = 'sync-time-on-join',
+    ASK_STATUS = 'ask-status',
+    SYNC_STATUS = 'sync-status'
 }

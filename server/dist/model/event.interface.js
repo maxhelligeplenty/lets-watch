@@ -20,4 +20,6 @@ var Event;
     Event["GET_USER_ROLE"] = "get-user-role";
     Event["ASK_VIDEO_TIME"] = "ask-video-time";
     Event["SYNC_TIME_ON_JOIN"] = "sync-time-on-join";
+    Event["ASK_STATUS"] = "ask-status";
+    Event["SYNC_STATUS"] = "sync-status";
 })(Event = exports.Event || (exports.Event = {}));

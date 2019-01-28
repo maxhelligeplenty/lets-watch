@@ -83,7 +83,13 @@ var VideoSyncServer = /** @class */ (function () {
                 _this.io.to(room).emit(event_interface_1.Event.ASK_VIDEO_TIME, socketId);
             });
             socket.on(event_interface_1.Event.SYNC_TIME_ON_JOIN, function (socketId, t) {
-                _this.io.to(socketId).emit(event_interface_1.Event.SYNC_TIME_ON_JOIN, t);
+                socket.to(socketId).emit(event_interface_1.Event.SYNC_TIME_ON_JOIN, t);
+            });
+            socket.on(event_interface_1.Event.ASK_STATUS, function (socketId) {
+                _this.io.to(room).emit(event_interface_1.Event.ASK_STATUS, socketId);
+            });
+            socket.on(event_interface_1.Event.SYNC_STATUS, function (socketId, s) {
+                socket.to(socketId).emit(event_interface_1.Event.SYNC_STATUS, s);
             });
         });
     };

@@ -126,6 +126,14 @@ export class VideoSyncServer
             {
                 socket.to(socketId).emit(Event.SYNC_TIME_ON_JOIN, t);
             });
+            socket.on(Event.ASK_STATUS, (socketId:string) =>
+            {
+                this.io.to(room).emit(Event.ASK_STATUS, socketId);
+            });
+            socket.on(Event.SYNC_STATUS, (socketId:string, s:number) =>
+            {
+                socket.to(socketId).emit(Event.SYNC_STATUS, s);
+            });
         });
     }
 

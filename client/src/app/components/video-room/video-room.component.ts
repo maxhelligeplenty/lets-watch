@@ -102,34 +102,7 @@ export class VideoRoomComponent implements OnInit
 
     protected onStateChange():void
     {
-        if(this.isReady)
-        {
-            switch(this.syncData.player.getPlayerState())
-            {
-                case -1:
-                    break;
-                case 1:
-                    if(this.user.status === UserEnum.JOINING)
-                    {
-                        this.syncData.socket.emit(Event.ASK_VIDEO_TIME, this.user.id);
-                        this.user.status = UserEnum.JOINED;
-                    }
-                    else
-                    {
-                        this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                        this.syncData.socket.emit(Event.PLAY);
-                    }
-                    break;
-                case 2:
-                    this.syncData.socket.emit(Event.PAUSE);
-                    break;
-                case 3:
-                    this.syncData.player.playVideo();
-                    break;
-                default:
-                    break;
-            }
-        }
+        this.changeState(this.syncData.player.getPlayerState());
     }
 
     protected sendMessage(text:string):void
@@ -239,6 +212,16 @@ export class VideoRoomComponent implements OnInit
             this.syncVideoTime(time);
         });
 
+        this.socket.on(Event.ASK_STATUS, (socketId:string) =>
+        {
+            this.syncData.socket.emit(Event.SYNC_TIME_ON_JOIN, socketId, this.syncData.player.getPlayerState());
+        });
+
+        this.socket.on(Event.SYNC_STATUS, (status:number) =>
+        {
+            this.changeState(status);
+        });
+
         //this.socket.on(Event.GET_USER_ROLE, (userList:Array<UserInterface>) =>
         //{
         //    // TODO Replace with enum
@@ -267,6 +250,38 @@ export class VideoRoomComponent implements OnInit
         if(this.syncData.player.getCurrentTime() < time - 0.2 || this.syncData.player.getCurrentTime() > time + 0.2)
         {
             this.syncData.player.seekTo(time, true);
+        }
+    }
+
+    private changeState(state:number):void
+    {
+        if(this.isReady)
+        {
+            switch(state)
+            {
+                case -1:
+                    break;
+                case 1:
+                    if(this.user.status === UserEnum.JOINING)
+                    {
+                        this.syncData.socket.emit(Event.ASK_VIDEO_TIME, this.user.id);
+                        this.user.status = UserEnum.JOINED;
+                    }
+                    else
+                    {
+                        this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                        this.syncData.socket.emit(Event.PLAY);
+                    }
+                    break;
+                case 2:
+                    this.syncData.socket.emit(Event.PAUSE);
+                    break;
+                case 3:
+                    this.syncData.player.playVideo();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
