@@ -88,6 +88,10 @@ input
         background-color: black;
         padding: 10px 0;
         border-bottom: 1px solid white;
+        :hover
+        {
+            cursor: pointer;
+        }
         span
         {
             font-family: fontawesome;
