@@ -82,7 +82,7 @@ export class VideoRoomComponent implements OnInit
 
     protected navigateToStartPage():void
     {
-        this.router.navigate('start');
+        this.router.navigateByUrl('/start');
     }
 
     protected savePlayer(player:YT.Player):void
