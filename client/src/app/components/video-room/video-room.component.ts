@@ -82,6 +82,7 @@ export class VideoRoomComponent implements OnInit
 
     protected navigateToStartPage():void
     {
+        this.syncData.socket.emit().destroy();
         this.router.navigateByUrl('/start');
     }
 
