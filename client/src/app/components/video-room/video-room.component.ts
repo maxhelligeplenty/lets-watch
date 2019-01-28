@@ -151,6 +151,7 @@ export class VideoRoomComponent implements OnInit
         {
             this.syncData.player.loadVideoById({
                 videoId: id,
+                startSeconds: 0
             });
         });
 
