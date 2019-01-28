@@ -5,10 +5,10 @@ import {
 import * as express from 'express';
 import * as socketIo from 'socket.io';
 import { Socket } from 'socket.io';
-import { Message } from './model';
 import { Event } from './model/event.interface';
 import { VideoInfoInterface } from './model/video-info.interface';
-import { UserInterface } from '../../client/src/app/interface/user.interface';
+import { UserInterface } from './model/user.interface';
+import { Message } from './model/message';
 
 export class VideoSyncServer
 {
@@ -112,7 +112,19 @@ export class VideoSyncServer
             });
             socket.on(Event.SYNC_CURRENT_ROOM_MEMBER, (u:UserInterface, socketId:string) =>
             {
-                socket.broadcast.to(socketId).emit(Event.SYNC_CURRENT_ROOM_MEMBER, u);
+                socket.to(socketId).emit(Event.SYNC_CURRENT_ROOM_MEMBER, u);
+            });
+            socket.on(Event.GET_USER_ROLE, (u:Array<UserInterface>) =>
+            {
+                this.io.to(room).emit(Event.GET_USER_ROLE, u);
+            });
+            socket.on(Event.ASK_VIDEO_TIME, (socketId:string) =>
+            {
+                this.io.to(room).emit(Event.ASK_VIDEO_TIME, socketId);
+            });
+            socket.on(Event.SYNC_TIME_ON_JOIN, (socketId:string, t:number) =>
+            {
+                socket.to(socketId).emit(Event.SYNC_TIME_ON_JOIN, t);
             });
         });
     }

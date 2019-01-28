@@ -8,7 +8,10 @@ import { Message } from '../../interface/message.interface';
 import { Event } from '../../interface/event.interface';
 import { isNullOrUndefined } from 'util';
 import { VideoInfoInterface } from '../../interface/video-info.interface';
-import { UserInterface } from '../../interface/user.interface';
+import {
+    UserEnum,
+    UserInterface
+} from '../../interface/user.interface';
 import { PlaylistInterface } from '../../interface/playlist.interface';
 import { YoutubeVideoDataService } from '../../service/youtube-video-data.service';
 import * as socketIo from 'socket.io-client';
@@ -107,8 +110,16 @@ export class VideoRoomComponent implements OnInit
                 case -1:
                     break;
                 case 1:
-                    this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
-                    this.syncData.socket.emit(Event.PLAY);
+                    if(this.user.status === UserEnum.JOINING)
+                    {
+                        this.syncData.socket.emit(Event.ASK_VIDEO_TIME, this.user.id);
+                        this.user.status = UserEnum.JOINED;
+                    }
+                    else
+                    {
+                        this.syncData.socket.emit(Event.SYNC_TIME, this.syncData.player.getCurrentTime());
+                        this.syncData.socket.emit(Event.PLAY);
+                    }
                     break;
                 case 2:
                     this.syncData.socket.emit(Event.PAUSE);
@@ -148,8 +159,10 @@ export class VideoRoomComponent implements OnInit
         {
             this.syncData.clientId = this.socket.id;
             this.user = {
-                id:   this.syncData.clientId,
-                name: rug.generate()
+                id:     this.syncData.clientId,
+                name:   rug.generate(),
+                role:   'member',
+                status: UserEnum.JOINING
             };
 
             // TODO emit whole user to give first client HOST status. So new client gets data from HOST and not from all clients when ask
@@ -212,16 +225,41 @@ export class VideoRoomComponent implements OnInit
 
         this.socket.on(Event.ALERT_MEMBERS_NEW_USER, (user:UserInterface) =>
         {
-            console.log('test');
             this.currentRoomMember.push(user);
             this.syncData.socket.emit(Event.SYNC_CURRENT_ROOM_MEMBER, this.user, user.id);
         });
 
         this.socket.on(Event.SYNC_CURRENT_ROOM_MEMBER, (user:UserInterface) =>
         {
-            console.log('test1');
             this.currentRoomMember.push(user);
         });
+
+        this.socket.on(Event.ASK_VIDEO_TIME, (socketId:string) =>
+        {
+            this.syncData.socket.emit(Event.SYNC_TIME_ON_JOIN, socketId, this.syncData.player.getCurrentTime());
+        });
+
+        this.socket.on(Event.SYNC_TIME_ON_JOIN, (time:number) =>
+        {
+            this.syncVideoTime(time);
+        });
+
+        //this.socket.on(Event.GET_USER_ROLE, (userList:Array<UserInterface>) =>
+        //{
+        //    // TODO Replace with enum
+        //    console.log(userList);
+        //    let checkIfHostExists:UserInterface = userList.find((user:UserInterface) =>
+        //    {
+        //        return user.role === 'host'
+        //    });
+        //    console.log(checkIfHostExists);
+        //
+        //    if(isNullOrUndefined(checkIfHostExists))
+        //    {
+        //        this.user.role = 'host';
+        //    }
+        //    console.log(this.user);
+        //});
         //this.socket.on(Event.SYNC_HOST);
         //
         //this.socket.on(Event.ASK_FOR_SYNC_TIME, ());
