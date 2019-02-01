@@ -65,8 +65,7 @@ export class VideoRoomComponent implements OnInit
                     videoId:   videoId,
                     videoData: {
                         thumbnail: res.items[0].snippet.thumbnails.default.url,
-                        title:     res.items[0].snippet.localized.title.substring(0, 25) +
-                                   (res.items[0].snippet.localized.title.length > 24 ? '...' : '')
+                        title:     res.items[0].snippet.localized.title
                     }
                 };
                 this.syncData.socket.emit(Event.NEW_VIDEO, videoData);

@@ -55,7 +55,7 @@
             </div>
             <div class="playlist">
                 <h3>PLAYLIST</h3>
-                <div class="playlist-container">
+                <div class="playlist-container p-3">
                     <div *ngFor="let video of videoHistoryList" class="playlist-item" (click)="playNewVideoById(video.videoId)">
                         <img [src]="video.videoData.thumbnail">
                         <div class="video-description">{{video.videoData.title}}</div>
