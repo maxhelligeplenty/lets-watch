@@ -118,3 +118,22 @@ input
         }
     }
 }
+
+@media (max-width: 575.98px)
+{
+    .header-button
+    {
+        float: none !important;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}
+@media (max-width: 800px)
+{
+    .header-button
+    {
+        float: none !important;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}

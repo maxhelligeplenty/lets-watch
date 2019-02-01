@@ -37,7 +37,7 @@ export class VideoRoomComponent implements OnInit
     public newMessage:string;
     public currentRoomMember:Array<UserInterface> = [];
 
-    protected videoId:string = 'xfr-OiX-46w';
+    protected videoId:string = '';
 
     private isReady:boolean = false;
     private user:UserInterface;
