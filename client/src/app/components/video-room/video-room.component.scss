@@ -45,6 +45,7 @@
         outline: none;
         border-left: 1px solid white;
         outline: none;
+        border-radius: 0;
     }
     .fa-paper-plane
     {
@@ -100,6 +101,10 @@ input
             color: white;
         }
     }
+}
+#add-playlist
+{
+    border-radius: 0;
 }
 
 .add-video-url-container
