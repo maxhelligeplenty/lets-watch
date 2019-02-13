@@ -28,6 +28,7 @@
     .chat-output
     {
         overflow: scroll;
+        overflow-x: hidden;
         height: 33vh;
         background-color: black;
     }
@@ -69,6 +70,7 @@ input
     {
         width: 100%;
         overflow: scroll;
+        overflow-x: hidden;
         height: 33vh;
         background-color: black;
     }

@@ -46,7 +46,6 @@ export class VideoRoomComponent implements OnInit
     constructor(private youtubeVideoDataService:YoutubeVideoDataService,
                 private router:Router)
     {
-
     }
 
     public ngOnInit():void
