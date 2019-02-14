@@ -15,7 +15,7 @@ import { isNullOrUndefined } from 'util';
 })
 export class VideoRoomViewComponent implements OnInit
 {
-    protected room:string = '';
+    public room:string = '';
 
     constructor(private route:ActivatedRoute)
     {

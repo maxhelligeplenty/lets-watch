@@ -4,11 +4,12 @@ import { StartPageViewComponent } from './views/start-page-view/start-page-view.
 import { VideoRoomViewComponent } from './views/video-room-view/video-room-view.component';
 import { PrivacyViewComponent } from './views/privacy-view/privacy-view.component';
 import { ImpressumViewComponent } from './views/impressum-view/impressum-view.component';
+import { AppComponent } from './app.component';
 
 export const routes:Routes = [
     {
         path:       '',
-        redirectTo: 'start',
+        redirectTo: '/start',
         pathMatch:  'full'
     },
     {
@@ -30,5 +31,9 @@ export const routes:Routes = [
     {
         path:      'beta',
         component: BetaReportViewComponent
+    },
+    {
+        path:      '',
+        component: AppComponent
     }
 ];

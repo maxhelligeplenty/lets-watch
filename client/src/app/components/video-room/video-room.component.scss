@@ -30,6 +30,13 @@
         overflow: scroll;
         height: 33vh;
         background-color: black;
+        overflow: -moz-scrollbars-none;
+        -ms-overflow-style: none;
+        overflow-x: none;
+    }
+    .chat-output::-webkit-scrollbar
+    {
+        width: 0 !important;
     }
 }
 
@@ -43,7 +50,7 @@
         color: white;
         outline: none;
         border-left: 1px solid white;
-        outline: none;
+        border-radius: 0;
     }
     .fa-paper-plane
     {
@@ -69,8 +76,15 @@ input
     {
         width: 100%;
         overflow: scroll;
+        overflow-x: none;
         height: 33vh;
         background-color: black;
+        overflow: -moz-scrollbars-none;
+        -ms-overflow-style: none;
+    }
+    .playlist-container::-webkit-scrollbar
+    {
+        width: 0 !important;
     }
     .video-description
     {
@@ -109,12 +123,22 @@ input
         color: white;
         outline: none;
         border-left: 1px solid white;
-        outline: none;
         padding: 10px 20px;
+        border-radius: 0;
         span
         {
             font-size: 1.3rem;
             font-family: fontawesome;
         }
+    }
+}
+
+@media (max-width: 800px)
+{
+    .header-button
+    {
+        float: none !important;
+        margin-bottom: 10px;
+        width: 100%;
     }
 }

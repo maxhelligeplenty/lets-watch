@@ -9,5 +9,6 @@ export interface UserInterface {
 export enum UserEnum
 {
     JOINED = 'JOINED',
-    JOINING = 'JOINING'
+    JOINING = 'JOINING',
+    SEEKING = 'SEEKING'
 }

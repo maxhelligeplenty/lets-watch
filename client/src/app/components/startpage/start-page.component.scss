@@ -34,7 +34,7 @@
 }
 .start-page
 {
-    background-image: url('../../../assets/images/mountains-1412683.svg');
+    background-image: url('../../../assets/images/winter-background.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -76,7 +76,7 @@
     .c-card
     {
         padding: 10px;
-        height: 40vh;
+        min-height: 40vh;
         border-radius: 2px;
         background-color: #191919;
         .header
@@ -121,7 +121,7 @@
 {
     .join-button
     {
-       top:40% !important;
+        top:30% !important;
     }
     .description-container
     {

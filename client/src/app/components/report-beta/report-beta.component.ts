@@ -12,7 +12,7 @@ export class ReportBetaComponent implements OnInit
 {
     private socket;
 
-    protected sendMailToServer()
+    public sendMailToServer()
     {
         this.socket.emit(Event.SEND_MAIL);
     }
